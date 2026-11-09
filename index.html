@@ -1666,12 +1666,25 @@ var PRICE = 68000;
   var human = 0, tStart = Date.now();
   ['pointerdown','keydown','touchstart','scroll'].forEach(function(ev){ window.addEventListener(ev, function(){ human++; }, {passive:true, once:false}); });
   form.ts.value = tStart;
-  function getToken(){
-    if (!FORM_ENDPOINT || form.tk.value) return;
-    fetch(FORM_ENDPOINT + '?token=1', {credentials:'same-origin'}).then(function(r){ return r.ok ? r.json() : null; })
-      .then(function(j){ if (j && j.t){ form.tk.value = j.t; form.hm.value = j.h; } }).catch(function(){});
+  var tokP = null;
+  function getToken(){                                    // токен берём заранее, при первом действии на странице
+    if (!FORM_ENDPOINT) return Promise.resolve();
+    var t = +form.tk.value;
+    if (t && Date.now()/1000 - t < 5400) return Promise.resolve();   // свежий (< 1,5 ч)
+    if (tokP) return tokP;
+    tokP = fetch(FORM_ENDPOINT + '?token=1', {credentials:'same-origin'}).then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){ if (j && j.t){ form.tk.value = j.t; form.hm.value = j.h; } })
+      .catch(function(){}).then(function(){ tokP = null; });
+    return tokP;
   }
-  form.addEventListener('click', getToken, {once:true});
+  ['pointerdown','keydown','touchstart'].forEach(function(ev){ window.addEventListener(ev, getToken, {passive:true, once:true}); });
+  form.addEventListener('click', getToken);
+  function ensureToken(){                                  // сервер принимает токен не моложе 3 секунд
+    return getToken().then(function(){
+      var wait = 3200 - (Date.now() - (+form.tk.value || 0) * 1000);
+      return new Promise(function(res){ setTimeout(res, Math.max(0, Math.min(wait, 3200))); });
+    });
+  }
   function looksLikeBot(){
     if (form.website.value) return true;                 // заполнено поле-ловушка
     if (Date.now() - tStart < 5000) return true;          // квиз из 4 вопросов быстрее 5 секунд не пройти
@@ -1694,7 +1707,7 @@ var PRICE = 68000;
     });
     if (FORM_ENDPOINT){
       var btnS = form.querySelector('button[type=submit]'); btnS.disabled = true;
-      fetch(FORM_ENDPOINT, {method:'POST', body:new FormData(form), credentials:'same-origin'})
+      ensureToken().then(function(){ return fetch(FORM_ENDPOINT, {method:'POST', body:new FormData(form), credentials:'same-origin'}); })
         .then(function(r){ if (!r.ok) throw new Error(r.status); box.classList.add('sent'); })
         .catch(function(){ btnS.disabled = false; alert('Не получилось отправить. Позвоните нам: 8 800 550-16-34'); });
       return;
