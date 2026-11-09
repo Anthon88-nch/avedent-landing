@@ -214,6 +214,15 @@ p{max-width:68ch}
 .tl-new li{background:var(--tint-2);border-color:transparent;color:var(--primary);font-weight:500}
 @media (max-width:900px){.method{grid-template-columns:1fr;gap:28px}}
 
+/* Gains (4 преимущества метода) */
+.gains{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
+.gain{display:flex;flex-direction:column;gap:18px;padding:26px}
+.gain h3{font-size:18px;margin-bottom:8px}
+.ico-lg{width:64px;height:64px;border-radius:18px}
+.ico-lg svg{width:30px;height:30px}
+@media (max-width:1100px){.gains{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){.gains{grid-template-columns:1fr;margin-top:32px}.gain{flex-direction:row;align-items:flex-start;gap:16px;padding:22px}}
+
 /* ========== Bento ========== */
 .bento{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(180px,auto);gap:16px}
 .bento .card{display:flex;flex-direction:column;gap:14px;transition:border-color .3s,transform .3s var(--ease)}
@@ -489,6 +498,10 @@ function imgFallback(img){var f=img.getAttribute('data-fallback');if(f&&img.src.
   <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
   <symbol id="i-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-single" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.4C9.1 2.6 5.8 3.3 5 6.2c-.6 2.3.6 4.6 1.2 6.8.6 2.4.7 6.8 2.8 7.2 1.5.3 1.4-4.8 3-4.8s1.5 5.1 3 4.8c2.1-.4 2.2-4.8 2.8-7.2.6-2.2 1.8-4.5 1.2-6.8-.8-2.9-4.1-3.6-7-1.8Z"/><path d="m9 9.5 2 2 4-4"/></symbol>
+  <symbol id="i-bone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3.5h6v4H9zM9.5 7.5v9l2.5 3 2.5-3v-9M8.5 10.5l7-1M8.5 13.5l7-1M9 16.5l6-1"/><path d="M3 11v6a5 5 0 0 0 5 5h8a5 5 0 0 0 5-5v-6"/></symbol>
+  <symbol id="i-gum" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14c-.3-2.2-2.2-5.4-1.3-7.8C6.5 4 9.1 3.3 12 4.8 14.9 3.3 17.5 4 18.3 6.2c.9 2.4-1 5.6-1.3 7.8"/><path d="M3 13.5c2-1 3.4-.7 4.5.5 1.2 1.3 2.7 2 4.5 2s3.3-.7 4.5-2c1.1-1.2 2.5-1.5 4.5-.5M3 13.5V19a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5.5"/></symbol>
+  <symbol id="i-time" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="12" r="7.5"/><path d="M14 8v4l3 2M2.5 7h3M1.5 12H4M2.5 17h3"/></symbol>
 </svg>
 
 <!-- ========== 1. HEADER ========== -->
@@ -582,6 +595,24 @@ function imgFallback(img){var f=img.getAttribute('data-fallback');if(f&&img.src.
       </div>
       <p class="note">Сроки ориентировочные и зависят от состояния кости и здоровья пациента.</p>
     </div>
+  </div>
+  <div class="wrap gains">
+    <article class="card gain rv">
+      <span class="ico ico-lg"><svg aria-hidden="true" focusable="false"><use href="#i-single"/></svg></span>
+      <div><h3>Одна операция вместо двух</h3><p>Удаление и установка импланта проходят за одно посещение под местной анестезией — без повторного хирургического вмешательства.</p></div>
+    </article>
+    <article class="card gain rv">
+      <span class="ico ico-lg"><svg aria-hidden="true" focusable="false"><use href="#i-bone"/></svg></span>
+      <div><h3>Кость сохраняет объём</h3><p>Имплант сразу берёт на себя роль корня, поэтому кость в месте удаления меньше убывает. Это снижает вероятность, что понадобится её наращивание.</p></div>
+    </article>
+    <article class="card gain rv">
+      <span class="ico ico-lg"><svg aria-hidden="true" focusable="false"><use href="#i-gum"/></svg></span>
+      <div><h3>Естественный контур десны</h3><p>Десна заживает уже вокруг импланта и сохраняет форму. Это особенно важно для передних зубов, которые видны при улыбке.</p></div>
+    </article>
+    <article class="card gain rv">
+      <span class="ico ico-lg"><svg aria-hidden="true" focusable="false"><use href="#i-time"/></svg></span>
+      <div><h3>Лечение короче на несколько месяцев</h3><p>Нет этапа ожидания после удаления. Если имплант стабилен, в день операции можно поставить временную коронку.</p></div>
+    </article>
   </div>
 </section>
 
