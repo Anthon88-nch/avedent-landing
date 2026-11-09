@@ -656,6 +656,11 @@ footer .offer p{margin-top:10px;max-width:880px;line-height:1.55}
 }
 @media (prefers-reduced-motion:reduce){.fb,.fb-panel{transition:none;animation:none}}
 
+.msgr a{display:inline-flex;align-items:center;gap:8px;padding:8px 16px 8px 8px}
+.msgr a i{flex:none;width:24px;height:24px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center;font-style:normal}
+.msgr a i svg{width:15px;height:15px}
+.msgr a i b{font-size:9px;font-weight:800}
+.msgr a i img{width:24px;height:24px;border-radius:50%;display:block}
 /* ===== Тёмная тема ===== */
 :root[data-theme="dark"]{
   --blue:#3556c4;--blue-700:#2a47aa;--bright:#6f91ff;
@@ -1258,10 +1263,10 @@ function imgFallback(img){
           <div><span>Набережные Челны, Набережночелнинский пр-т, 41, 2 этаж<br>Пн–Пт 8:00–19:00, Сб 8:00–14:00</span></div>
         </div>
         <div class="msgr">
-          <a href="https://wa.me/79534057942" target="_blank" rel="noopener">WhatsApp</a>
-          <a href="https://t.me/avedent_clinic" target="_blank" rel="noopener">Telegram</a>
-          <a href="https://max.ru/u/f9LHodD0cOIe90G69rS9rvCxZsvL_yTMy5j144swTtDAnE0NnGtZ9OFBLC4" target="_blank" rel="noopener">MAX</a>
-          <a href="https://vk.com/avedent_clinic" target="_blank" rel="noopener">ВКонтакте</a>
+          <a href="https://wa.me/79534057942" target="_blank" rel="noopener" style="--c:#25D366"><i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.2z"/></svg></i>WhatsApp</a>
+          <a href="https://t.me/avedent_clinic" target="_blank" rel="noopener" style="--c:#229ED9"><i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.4 4.2 2.9 11.3c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.5c.3-1.3-.5-1.8-1.4-1.5zM9.4 14l8.5-7.4-6.5 8.4-.3 3-1.7-4z"/></svg></i>Telegram</a>
+          <a href="https://max.ru/u/f9LHodD0cOIe90G69rS9rvCxZsvL_yTMy5j144swTtDAnE0NnGtZ9OFBLC4" target="_blank" rel="noopener" style="--c:transparent"><i><img src="img/icons/max.webp" width="24" height="24" alt="" loading="lazy"></i>MAX</a>
+          <a href="https://vk.com/avedent_clinic" target="_blank" rel="noopener" style="--c:#0062D6"><i><b>VK</b></i>ВКонтакте</a>
         </div>
       </div>
       <div class="form quiz" id="formBox">
