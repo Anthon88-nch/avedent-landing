@@ -340,6 +340,20 @@ section{padding:110px 0}
 .doc-grid{grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(110px,auto)}
 .d-photo{grid-column:span 5;grid-row:span 4;padding:0;background:#1d1c22;min-height:560px}
 .d-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 15%}
+.d-photo video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000;z-index:3}
+.d-photo::after{content:"";position:absolute;inset:auto 0 0 0;height:45%;background:linear-gradient(0deg,rgba(13,24,66,.75),rgba(13,24,66,0));pointer-events:none;z-index:1}
+.d-photo.playing::after{display:none}
+.play{position:absolute;left:24px;bottom:24px;z-index:2;display:flex;align-items:center;gap:14px;border:0;background:none;color:#fff;font:inherit;cursor:pointer;text-align:left;padding:0}
+.play-ic{position:relative;width:72px;height:72px;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--blue);box-shadow:0 10px 30px -6px rgba(0,0,0,.5);transition:transform .3s var(--ease)}
+.play-ic::before{content:"";position:absolute;inset:-8px;border-radius:50%;border:2px solid rgba(255,255,255,.55);animation:ring 2.2s ease-out infinite}
+@keyframes ring{0%{transform:scale(.85);opacity:1}100%{transform:scale(1.35);opacity:0}}
+.play-ic svg{width:30px;height:30px;margin-left:4px}
+.play:hover .play-ic{transform:scale(1.08)}
+.play:focus-visible .play-ic{outline:3px solid #9cb6ff;outline-offset:4px}
+.play-t{font-weight:800;font-size:18px;line-height:1.25;text-shadow:0 1px 8px rgba(0,0,0,.4)}
+.play-t small{display:block;font-weight:500;font-size:14px;opacity:.85}
+@media (prefers-reduced-motion:reduce){.play-ic::before{animation:none}}
+@media (max-width:640px){.play{left:16px;bottom:16px}.play-ic{width:60px;height:60px}.play-t{font-size:16px}}
 .d-name{grid-column:span 7;grid-row:span 2;padding:40px}
 .d-name .role{color:var(--accent);font-weight:700;margin-bottom:10px}
 .d-name h3{font-size:clamp(28px,3vw,40px);margin-bottom:16px}
@@ -823,7 +837,11 @@ function imgFallback(img){
       <p class="lead">От первого снимка до постоянной коронки вас ведёт главный врач клиники — не нужно каждый раз заново рассказывать свою историю.</p>
     </div>
     <div class="bento doc-grid">
-      <figure class="card d-photo rv">
+      <figure class="card d-photo rv" id="docPhoto" data-video="https://a022ba22-5499-4b20-991a-7995cfae334c.selstorage.ru/promo.mp4">
+        <button type="button" class="play" id="docPlay" aria-label="Смотреть видео с врачом" data-goal="video_play">
+          <span class="play-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.6-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg></span>
+          <span class="play-t">Смотреть видео</span>
+        </button>
         <img src="img/garaev.webp" alt="Хирург-имплантолог Гараев Альберт Радикович, стоматология «Аведент», Набережные Челны" loading="lazy" width="960" height="1200">
       </figure>
       <div class="card d-name rv">
@@ -1218,6 +1236,19 @@ var PRICE = 68000;
     if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){if(es[0].isIntersecting){io.disconnect();load();}},{rootMargin:'300px 0px'});io.observe(box);}
   })();
 
+
+  /* видео врача: грузится только по клику */
+  (function(){
+    var fig=document.getElementById('docPhoto'),btn=document.getElementById('docPlay');if(!fig||!btn)return;
+    btn.addEventListener('click',function(){
+      var v=document.createElement('video');
+      v.src=fig.getAttribute('data-video');v.controls=true;v.autoplay=true;v.playsInline=true;v.preload='auto';
+      v.setAttribute('poster','img/garaev.webp');
+      fig.appendChild(v);fig.classList.add('playing');btn.hidden=true;
+      var pr=v.play();if(pr&&pr.catch)pr.catch(function(){});
+      v.focus();
+    });
+  })();
   /* cookie notice */
   (function(){
     var ck=document.getElementById('ck'),ok;try{ok=localStorage.getItem('ck_ok');}catch(e){}
