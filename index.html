@@ -503,6 +503,12 @@ footer{padding:40px 0 120px;font-size:14px;color:var(--muted)}
 footer .wrap{display:grid;grid-template-columns:auto 1fr auto;gap:28px;align-items:start}
 footer img{height:56px;width:auto;border-radius:10px}
 footer p + p{margin-top:4px}
+footer .offer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:14px}
+footer .offer summary{cursor:pointer;font-weight:700;color:var(--ink);list-style:none;display:inline-flex;align-items:center;gap:8px}
+footer .offer summary::-webkit-details-marker{display:none}
+footer .offer summary::after{content:"";width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-3px);transition:transform .25s}
+footer .offer[open] summary::after{transform:rotate(-135deg) translateY(-1px)}
+footer .offer p{margin-top:10px;max-width:880px;line-height:1.55}
 @media (max-width:800px){footer .wrap{grid-template-columns:1fr}}
 
 /* Mobile bar */
@@ -1095,7 +1101,6 @@ function imgFallback(img){
       <p>г. Набережные Челны, Набережночелнинский проспект, 41, 2 этаж</p>
       <p>ООО «Аведент» · ИНН 1650362360 · ОГРН 1181690024823</p>
       <p>Лицензия № ЛО41-01181-16/00574728</p>
-      <p>Информация на сайте не является публичной офертой. Стоимость — по прайсу клиники.</p>
       <p class="legal-links"><a href="privacy.html">Политика конфиденциальности</a> · <a href="consent.html">Согласие на обработку данных</a></p>
     </div>
     <div>
@@ -1104,6 +1109,10 @@ function imgFallback(img){
       <p><a href="tel:+78552319011">8 8552 31-90-11</a></p>
       <p><a href="mailto:redent2007@yandex.ru">redent2007@yandex.ru</a></p>
     </div>
+    <details class="offer">
+      <summary>Сайт не является публичной офертой</summary>
+      <p>Обращаем ваше внимание на то, что данный интернет-сайт носит исключительно информационный характер и ни при каких условиях не является публичной офертой. Для получения подробной информации о стоимости, наименовании и сроках оказания услуг, пожалуйста, обращайтесь по номеру телефона, указанному в контактах. Конкретный перечень услуг и порядок их предоставления определяются в договоре оказания услуг, оформляемом между клиникой и пациентом.</p>
+    </details>
   </div>
 </footer>
 <div class="ck" id="ck" role="region" aria-label="Уведомление о cookie" hidden>
