@@ -286,16 +286,21 @@ section{padding:110px 0}
 @media (prefers-reduced-motion:reduce){.wv svg{animation:none}}
 
 
-/* SOFT AMBIENT GLOW — мягкое свечение в первом экране: ореол за фото врача и отсвет у заголовка */
-.h-doc{--gl:rgba(63,109,240,.30);animation:heroGlow 7s ease-in-out infinite}
-:root[data-theme="dark"] .h-doc{--gl:rgba(80,125,255,.55)}
-@keyframes heroGlow{0%,100%{box-shadow:var(--shadow),0 0 40px 2px var(--gl)}50%{box-shadow:var(--shadow),0 0 80px 14px var(--gl)}}
-.h-main>*{position:relative;z-index:1}
-.h-main::before{content:"";position:absolute;z-index:0;left:-8%;top:2%;width:72%;height:62%;border-radius:50%;pointer-events:none;
-  background:radial-gradient(closest-side,rgba(126,162,255,.22),rgba(126,162,255,0));filter:blur(18px);animation:glowBreath 9s ease-in-out infinite}
-:root[data-theme="dark"] .h-main::before{background:radial-gradient(closest-side,rgba(90,130,255,.38),rgba(90,130,255,0))}
-@keyframes glowBreath{0%,100%{opacity:.7;transform:scale(.96)}50%{opacity:1;transform:scale(1.04)}}
-@media (prefers-reduced-motion:reduce){.h-doc,.h-main::before{animation:none}}
+/* SOFT AMBIENT GLOW — размытые пятна света за карточками первого экрана (aurora) */
+.hero{position:relative;isolation:isolate;overflow-x:clip}
+.hero::before,.hero::after{content:"";position:absolute;z-index:-1;border-radius:50%;pointer-events:none;filter:blur(70px);will-change:transform}
+.hero::before{width:min(46vw,640px);height:min(46vw,640px);right:max(-4vw,calc(50% - 760px));top:-60px;
+  background:radial-gradient(circle at 50% 50%,rgba(63,109,240,.30),rgba(63,109,240,0) 68%);animation:aurA 16s ease-in-out infinite alternate}
+.hero::after{width:min(40vw,560px);height:min(32vw,420px);left:max(-6vw,calc(50% - 820px));top:30%;
+  background:radial-gradient(circle at 50% 50%,rgba(120,150,255,.22),rgba(120,150,255,0) 70%);animation:aurB 20s ease-in-out infinite alternate}
+:root[data-theme="dark"] .hero::before{background:radial-gradient(circle at 50% 50%,rgba(64,110,255,.55),rgba(64,110,255,0) 68%)}
+:root[data-theme="dark"] .hero::after{background:radial-gradient(circle at 50% 50%,rgba(110,90,255,.38),rgba(110,90,255,0) 70%)}
+@keyframes aurA{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-60px,50px) scale(1.12)}}
+@keyframes aurB{0%{transform:translate(0,0) scale(1)}100%{transform:translate(70px,-40px) scale(.92)}}
+/* у заголовка — мягкий свет из верхнего угла карточки */
+.h-main{background:radial-gradient(70% 60% at 0% 0%,rgba(126,162,255,.16),transparent 70%),radial-gradient(900px 400px at 110% -10%,rgba(63,109,240,.14),transparent 60%),var(--surface)}
+:root[data-theme="dark"] .h-main{background:radial-gradient(70% 60% at 0% 0%,rgba(100,140,255,.22),transparent 70%),radial-gradient(900px 400px at 110% -10%,rgba(63,109,240,.14),transparent 60%),var(--surface)}
+@media (prefers-reduced-motion:reduce){.hero::before,.hero::after{animation:none}}
 
 /* BAND */
 .band{position:relative;padding:0;min-height:620px;display:flex;align-items:flex-end;margin-bottom:-48px;overflow:hidden;background:var(--navy)}
