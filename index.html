@@ -302,6 +302,20 @@ section{padding:110px 0}
 :root[data-theme="dark"] .h-main{background:radial-gradient(70% 60% at 0% 0%,rgba(100,140,255,.22),transparent 70%),radial-gradient(900px 400px at 110% -10%,rgba(63,109,240,.14),transparent 60%),var(--surface)}
 @media (prefers-reduced-motion:reduce){.hero::before,.hero::after{animation:none}}
 
+
+/* MEDICAL CONTOUR LINES — тонкие линии «улыбки» в фоне карточек */
+.contour{position:absolute;pointer-events:none;z-index:0;color:var(--accent);opacity:.16;overflow:visible}
+:root[data-theme="dark"] .contour{color:#9db4ff;opacity:.22}
+.contour .ct-acc{animation:ctDash 40s linear infinite;opacity:.9}
+.contour .ct-dot{opacity:.9}
+@keyframes ctDash{to{stroke-dashoffset:-360}}
+.h-main>*:not(.contour),.final-box>*:not(.contour){position:relative;z-index:1}
+.h-main .contour{width:66%;height:260px;right:-4%;bottom:-70px}
+.final-box{position:relative;overflow:hidden}
+.final-box .contour{color:#b9caff;opacity:.2;width:104%;height:240px;left:-2%;bottom:-130px}
+@media (max-width:640px){.h-main .contour{width:110%;height:170px;bottom:-60px;opacity:.12}.final-box .contour{width:120%;height:180px;bottom:-90px}}
+@media (prefers-reduced-motion:reduce){.contour .ct-acc{animation:none}.contour .ct-dot{display:none}}
+
 /* BAND */
 .band{position:relative;padding:0;min-height:620px;display:flex;align-items:flex-end;margin-bottom:-48px;overflow:hidden;background:var(--navy)}
 .band-img{position:absolute;inset:0}
@@ -753,6 +767,7 @@ function imgFallback(img){
   <div class="wrap">
     <div class="bento hero-grid">
       <div class="card h-main rv">
+        <svg class="contour" viewBox="0 0 600 300" preserveAspectRatio="none" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"><path d="M-10,8 C170,208 430,208 610,-6"/><path d="M-10,24 C170,215 430,215 610,13"/><path d="M-10,56 C170,229 430,229 610,51"/><path d="M-10,72 C170,236 430,236 610,70"/><path d="M-10,88 C170,243 430,243 610,89"/><path d="M-10,104 C170,250 430,250 610,108"/><path d="M-10,120 C170,257 430,257 610,127"/></g><path class="ct-acc" d="M-10,40 C170,222 430,222 610,32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 8" vector-effect="non-scaling-stroke"/><circle class="ct-dot" r="2.6" fill="currentColor"><animateMotion dur="16s" repeatCount="indefinite" path="M-10,40 C170,222 430,222 610,32" keyPoints="0;1;0" keyTimes="0;.5;1" calcMode="linear"/></circle></svg>
         <span class="eyebrow">Набережные Челны · клиника «Аведент»</span>
         <h1>Одномоментная имплантация в&nbsp;Набережных Челнах <span>удаление и&nbsp;имплант за&nbsp;один визит</span></h1>
         <div class="h-price"><b>68&nbsp;000&nbsp;₽</b>&nbsp;под ключ<i></i>рассрочка от&nbsp;<b>5&nbsp;667&nbsp;₽/мес</b></div>
@@ -1286,6 +1301,7 @@ function imgFallback(img){
 <section class="final" id="form">
   <div class="wrap">
     <div class="final-box rv">
+      <svg class="contour" viewBox="0 0 600 300" preserveAspectRatio="none" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"><path d="M-10,8 C170,208 430,208 610,-6"/><path d="M-10,24 C170,215 430,215 610,13"/><path d="M-10,56 C170,229 430,229 610,51"/><path d="M-10,72 C170,236 430,236 610,70"/><path d="M-10,88 C170,243 430,243 610,89"/><path d="M-10,104 C170,250 430,250 610,108"/><path d="M-10,120 C170,257 430,257 610,127"/></g><path class="ct-acc" d="M-10,40 C170,222 430,222 610,32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 8" vector-effect="non-scaling-stroke"/><circle class="ct-dot" r="2.6" fill="currentColor"><animateMotion dur="16s" repeatCount="indefinite" path="M-10,40 C170,222 430,222 610,32" keyPoints="0;1;0" keyTimes="0;.5;1" calcMode="linear"/></circle></svg>
       <div>
         <h2>Подходит ли вам одномоментная имплантация?</h2>
         <p class="lead">Ответьте на 4 коротких вопроса — врач посмотрит ответы и перезвонит с честным ответом. Дальше 3D-снимок и консультация с точной ценой. Решение — за вами, никакого давления.</p>
