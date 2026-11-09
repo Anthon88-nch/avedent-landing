@@ -1122,8 +1122,7 @@ function imgFallback(img){
     </div>
     <div class="f-map">
       <div class="map-box" id="mapBox">
-        <div id="dgMap" class="dg-map"></div>
-        <button type="button" class="map-ph" id="mapLoad" aria-label="Показать карту 2ГИС">
+        <button type="button" class="map-ph" id="mapLoad" aria-label="Показать карту">
           <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
           <span>Показать карту</span>
         </button>
@@ -1207,22 +1206,14 @@ var PRICE = 68000;
 
 
 
-  /* 2GIS map: lazy load (API 2.0, без ключа) */
+  /* карта: отложенная загрузка. 2ГИС без ключа отдаёт пустые тайлы, поэтому показываем виджет Яндекс Карт (ключ не нужен) */
   (function(){
-    var box=document.getElementById('mapBox');if(!box)return;var done=false,LAT=55.713698,LON=52.364603;
-    var btn=document.getElementById('mapLoad');
-    function fail(){btn.disabled=false;btn.querySelector('span').textContent='Карта не загрузилась — открыть в 2ГИС';btn.onclick=function(){window.open('https://go.2gis.com/ZGjs0','_blank','noopener');};}
-    function load(){if(done)return;done=true;btn.disabled=true;btn.querySelector('span').textContent='Загружаем карту…';
-      var sc=document.createElement('script');sc.src='https://maps.api.2gis.ru/2.0/loader.js?pkg=full';sc.async=true;sc.onerror=fail;
-      var t=setTimeout(fail,12000);
-      sc.onload=function(){ if(!window.DG){clearTimeout(t);fail();return;}
-        DG.then(function(){clearTimeout(t);
-          var m=DG.map('dgMap',{center:[LAT,LON],zoom:16,fullscreenControl:false,scrollWheelZoom:false});
-          DG.marker([LAT,LON]).addTo(m).bindPopup('<b>Стоматология «АВЕдент»</b><br>Набережночелнинский пр-т, 41, офис 202').openPopup();
-          btn.remove();
-        });
-      };
-      document.head.appendChild(sc);}
+    var box=document.getElementById('mapBox');if(!box)return;var done=false,btn=document.getElementById('mapLoad');
+    var SRC='https://yandex.ru/map-widget/v1/?ll=52.364603%2C55.713698&z=16&pt=52.364603%2C55.713698%2Cpm2rdm&l=map';
+    function load(){if(done)return;done=true;
+      var f=document.createElement('iframe');f.src=SRC;f.title='Клиника «Аведент» на карте';f.loading='lazy';f.allowFullscreen=true;
+      f.className='dg-map';f.style.border='0';box.appendChild(f);
+      f.addEventListener('load',function(){btn.remove();});}
     btn.addEventListener('click',load);
     if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){if(es[0].isIntersecting){io.disconnect();load();}},{rootMargin:'300px 0px'});io.observe(box);}
   })();
