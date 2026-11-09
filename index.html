@@ -296,25 +296,14 @@ section{padding:110px 0}
 .scene-top .cnt span{font-size:18px;color:#7f93cf}
 .progress{height:4px;background:rgba(255,255,255,.12);border-radius:4px;margin-top:18px;overflow:hidden}
 .progress i{display:block;height:100%;width:20%;background:linear-gradient(90deg,#7ea2ff,#fff);border-radius:4px;transition:width .6s var(--ease)}
-.scene{width:100%;height:auto;display:block}
+.scene{position:relative;aspect-ratio:4/5;height:min(calc(100vh - 330px),500px);min-height:300px;margin:0 auto;border-radius:24px;overflow:hidden;background:#11235a}
 .dots{display:flex;gap:8px;margin-top:16px}
 .dots button{flex:1;border:0;border-radius:12px;padding:9px 0;background:rgba(255,255,255,.08);color:#9fb0e0;font-weight:800;font-size:14px;cursor:pointer;transition:background .3s,color .3s}
 .dots button:hover{background:rgba(255,255,255,.16);color:#fff}
 .dots button.on{background:#fff;color:var(--navy)}
-.scene .g{opacity:0;transition:opacity .6s var(--ease),transform .7s var(--ease);transform-box:fill-box;transform-origin:center}
-.scene[data-step="1"] .g-tooth,.scene[data-step="1"] .g-scan,
-.scene[data-step="2"] .g-tooth,.scene[data-step="2"] .g-plan,
-.scene[data-step="3"] .g-implant,.scene[data-step="3"] .g-socket,
-.scene[data-step="4"] .g-implant,.scene[data-step="4"] .g-temp,.scene[data-step="4"] .g-heal,
-.scene[data-step="5"] .g-implant,.scene[data-step="5"] .g-abut,.scene[data-step="5"] .g-crown{opacity:1}
-.scene .g-implant{transform:translateY(-30px)}
-.scene[data-step="3"] .g-implant,.scene[data-step="4"] .g-implant,.scene[data-step="5"] .g-implant{transform:none}
-.scene .g-crown{transform:translateY(-24px)}
-.scene[data-step="5"] .g-crown{transform:none}
-.scan-line{animation:scan 2.4s ease-in-out infinite alternate}
-@keyframes scan{from{transform:translateY(0)}to{transform:translateY(230px)}}
-.heal-dot{animation:pulse 1.8s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:.25}50%{opacity:1}}
+.scene .sp{position:absolute;inset:0;opacity:0;transition:opacity .55s var(--ease)}
+.scene .sp.on{opacity:1}
+.scene .sp img{width:100%;height:100%;object-fit:contain;display:block}
 .story-steps{padding:8vh 0 10vh}
 .step{min-height:50vh;display:flex;flex-direction:column;justify-content:center;opacity:.28;transition:opacity .5s}
 .step.on{opacity:1}
@@ -330,7 +319,8 @@ section{padding:110px 0}
   .scene-box{padding:14px 18px;border-radius:24px;display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center}
   .scene-top{flex-direction:column;align-items:flex-start;gap:4px;margin:0}
   .scene-top .cnt{font-size:30px}
-  .scene{grid-row:1;grid-column:1;max-height:140px}
+  .scene{grid-row:1;grid-column:1;height:140px;min-height:0;border-radius:16px}
+  .scene .sp img{transform:scale(1.18)}
   .progress{grid-column:1/-1;margin-top:4px}
   .dots{grid-column:1/-1;margin-top:6px}
   .dots button{padding:6px 0;font-size:13px}
@@ -696,62 +686,13 @@ function imgFallback(img){
       <div class="story-visual">
         <div class="scene-box">
           <div class="scene-top"><div class="cnt" id="stepCnt">01<span> / 05</span></div><div id="stepTitle">3D-диагностика</div></div>
-          <svg class="scene" id="scene" data-step="1" viewBox="0 0 400 400" role="img" aria-label="Схема этапов одномоментной имплантации">
-            <defs>
-              <linearGradient id="ti" x1="0" x2="1"><stop offset="0" stop-color="#8f9bb8"/><stop offset=".5" stop-color="#e9edf7"/><stop offset="1" stop-color="#7d89a8"/></linearGradient>
-              <linearGradient id="enamel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e6ebf7"/></linearGradient>
-              <linearGradient id="scanG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7ea2ff" stop-opacity="0"/><stop offset="1" stop-color="#7ea2ff" stop-opacity=".9"/></linearGradient>
-            </defs>
-            <!-- bone -->
-            <path d="M10 200 Q200 186 390 200 L390 390 Q200 400 10 390 Z" fill="#e9dcc2" opacity=".95"/>
-            <g fill="#d9c9a8" opacity=".6"><circle cx="60" cy="260" r="6"/><circle cx="110" cy="320" r="4"/><circle cx="300" cy="270" r="5"/><circle cx="345" cy="335" r="7"/><circle cx="150" cy="365" r="5"/><circle cx="260" cy="360" r="4"/></g>
-            <!-- gum -->
-            <path d="M10 168 Q60 150 105 172 Q150 192 200 176 Q250 160 295 176 Q340 192 390 168 L390 214 Q200 200 10 214 Z" fill="#f2a0ae"/>
-            <!-- neighbours -->
-            <g fill="url(#enamel)" stroke="#c9d3ea" stroke-width="2">
-              <path d="M-10 108 Q-12 78 16 80 Q40 92 64 80 Q92 78 90 108 L84 182 Q40 194 -4 182 Z"/>
-              <path d="M310 108 Q308 78 336 80 Q360 92 384 80 Q412 78 410 108 L404 182 Q360 194 316 182 Z"/>
-            </g>
-            <!-- step 1-2: damaged tooth -->
-            <g class="g g-tooth">
-              <path d="M152 110 Q150 80 176 82 Q200 94 224 82 Q250 80 248 110 L242 185 L232 282 Q226 296 218 284 L204 200 L196 200 L182 284 Q174 296 168 282 L158 185 Z" fill="url(#enamel)" stroke="#c9d3ea" stroke-width="2"/>
-              <path d="M188 86 L198 118 L186 146 L196 170" fill="none" stroke="#6b5b4b" stroke-width="3" stroke-linecap="round"/>
-              <ellipse cx="222" cy="112" rx="13" ry="10" fill="#8a6f52" opacity=".8"/>
-            </g>
-            <!-- step 1: scan -->
-            <g class="g g-scan">
-              <path d="M130 70 h-14 v14 M270 70 h14 v14 M130 320 h-14 v-14 M270 320 h14 v-14" fill="none" stroke="#7ea2ff" stroke-width="3" stroke-linecap="round"/>
-              <rect class="scan-line" x="116" y="70" width="168" height="22" fill="url(#scanG)"/>
-            </g>
-            <!-- step 2: plan -->
-            <g class="g g-plan">
-              <path d="M180 205 L220 205 L216 300 Q200 325 184 300 Z" fill="none" stroke="#7ea2ff" stroke-width="2.5" stroke-dasharray="7 6"/>
-              <path d="M240 205 v110 M234 205 h12 M234 315 h12" stroke="#9cb6ff" stroke-width="2"/>
-              <text x="252" y="265" fill="#cfdbff" font-size="16" font-weight="700" font-family="Onest,sans-serif">10 мм</text>
-            </g>
-            <!-- step 3: socket -->
-            <g class="g g-socket"><path d="M168 196 Q200 214 232 196" fill="none" stroke="#d27585" stroke-width="3" stroke-linecap="round"/></g>
-            <!-- implant -->
-            <g class="g g-implant">
-              <path d="M180 205 L220 205 L216 300 Q200 325 184 300 Z" fill="url(#ti)"/>
-              <g stroke="#6f7b99" stroke-width="2.5" stroke-linecap="round">
-                <path d="M179 218 L221 224"/><path d="M179 232 L221 238"/><path d="M180 246 L220 252"/><path d="M181 260 L219 266"/><path d="M182 274 L218 280"/><path d="M183 288 L217 294"/>
-              </g>
-              <rect x="182" y="198" width="36" height="9" rx="3" fill="#c6cde0"/>
-            </g>
-            <!-- step 4: healing -->
-            <g class="g g-heal"><circle class="heal-dot" cx="164" cy="250" r="5" fill="#9cb6ff"/><circle class="heal-dot" cx="236" cy="240" r="5" fill="#9cb6ff" style="animation-delay:.5s"/><circle class="heal-dot" cx="200" cy="335" r="5" fill="#9cb6ff" style="animation-delay:1s"/></g>
-            <g class="g g-temp">
-              <path d="M156 112 Q154 86 178 88 Q200 98 222 88 Q246 86 244 112 L238 170 Q200 180 162 170 Z" fill="#fff" fill-opacity=".55" stroke="#fff" stroke-width="2.5" stroke-dasharray="8 6"/>
-              <rect x="190" y="168" width="20" height="32" rx="4" fill="#c6cde0" opacity=".8"/>
-            </g>
-            <!-- step 5: abutment + crown -->
-            <g class="g g-abut"><path d="M188 200 L212 200 L210 160 L190 160 Z" fill="#c6cde0"/></g>
-            <g class="g g-crown">
-              <path d="M152 110 Q150 80 176 82 Q200 94 224 82 Q250 80 248 110 L240 174 Q200 186 160 174 Z" fill="url(#enamel)" stroke="#dbe3f6" stroke-width="2"/>
-              <path d="M172 96 Q180 92 186 100" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none"/>
-            </g>
-          </svg>
+          <div class="scene" id="scene" data-step="1" role="img" aria-label="Этапы одномоментной имплантации">
+            <picture class="sp on" data-n="1"><source media="(prefers-reduced-motion: reduce)" srcset="img/steps/01-diagnostics.webp" type="image/webp"><img src="img/steps/01-diagnostics.gif" width="600" height="750" alt="3D-диагностика: сканирование зуба с трещиной" loading="lazy" decoding="async"></picture>
+            <picture class="sp" data-n="2"><source media="(prefers-reduced-motion: reduce)" srcset="img/steps/02-planning.webp" type="image/webp"><img src="img/steps/02-planning.gif" width="600" height="750" alt="Планирование: виртуальная модель импланта и размеры" loading="lazy" decoding="async"></picture>
+            <picture class="sp" data-n="3"><source media="(prefers-reduced-motion: reduce)" srcset="img/steps/03-placement.webp" type="image/webp"><img src="img/steps/03-placement.gif" width="600" height="750" alt="Удаление зуба и установка импланта в лунку" loading="lazy" decoding="async"></picture>
+            <picture class="sp" data-n="4"><source media="(prefers-reduced-motion: reduce)" srcset="img/steps/04-healing.webp" type="image/webp"><img src="img/steps/04-healing.gif" width="600" height="750" alt="Приживление: имплант срастается с костью" loading="lazy" decoding="async"></picture>
+            <picture class="sp" data-n="5"><source media="(prefers-reduced-motion: reduce)" srcset="img/steps/05-crown.webp" type="image/webp"><img src="img/steps/05-crown.gif" width="600" height="750" alt="Постоянная коронка на импланте" loading="lazy" decoding="async"></picture>
+          </div>
           <div class="progress"><i id="prog"></i></div>
           <div class="dots" id="dots" aria-label="Перейти к шагу">
             <button type="button" data-go="1" class="on" aria-label="Шаг 1">1</button><button type="button" data-go="2" aria-label="Шаг 2">2</button><button type="button" data-go="3" aria-label="Шаг 3">3</button><button type="button" data-go="4" aria-label="Шаг 4">4</button><button type="button" data-go="5" aria-label="Шаг 5">5</button>
@@ -1179,6 +1120,7 @@ var PRICE = 68000;
     var n = el.getAttribute('data-step');
     steps.forEach(function(s){ s.classList.toggle('on', s === el); });
     scene.setAttribute('data-step', n);
+    scene.querySelectorAll('.sp').forEach(function(p){ p.classList.toggle('on', p.getAttribute('data-n') === n); });
     cnt.innerHTML = '0' + n + '<span> / 05</span>';
     ttl.textContent = el.getAttribute('data-title');
     prog.style.width = (n * 20) + '%';
