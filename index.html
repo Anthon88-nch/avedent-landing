@@ -13,8 +13,7 @@
 <meta property="og:image" content="img/garaev.webp">
 <meta name="theme-color" content="#17365D">
 <link rel="icon" href="img/logo.webp" type="image/webp">
-<link rel="preload" href="fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/onest-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="img/garaev.webp" as="image" type="image/webp" imagesrcset="img/garaev-480.webp 480w, img/garaev.webp 960w" imagesizes="(max-width: 900px) 92vw, 520px" fetchpriority="high">
 
 <script type="application/ld+json">
@@ -42,10 +41,8 @@
 
 <style>
 /* ========== Fonts (self-hosted) ========== */
-@font-face{font-family:Inter;font-style:normal;font-weight:400 700;font-display:swap;src:url(fonts/inter-cyrillic.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:Inter;font-style:normal;font-weight:400 700;font-display:swap;src:url(fonts/inter-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+20BD,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:Manrope;font-style:normal;font-weight:400 800;font-display:swap;src:url(fonts/manrope-cyrillic.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:Manrope;font-style:normal;font-weight:400 800;font-display:swap;src:url(fonts/manrope-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+20BD,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Onest;font-style:normal;font-weight:400 800;font-display:swap;src:url(fonts/onest-cyrillic.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:Onest;font-style:normal;font-weight:400 800;font-display:swap;src:url(fonts/onest-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+20BD,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 
 /* ========== Design tokens: Clinical Trust ========== */
 :root{
@@ -63,8 +60,8 @@
   --tint:#F4F8FC;
   --tint-2:#DCEAF6;
 
-  --font-head:Manrope,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-  --font-body:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --font-head:Onest,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --font-body:Onest,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
 
   --r-card:20px;
   --r-card-lg:24px;
@@ -125,9 +122,9 @@ p{max-width:68ch}
 .ico-anim{overflow:hidden;padding:0}
 .ico-anim picture{display:block;width:100%;height:100%}
 .ico-anim img{display:block;width:100%;height:100%}
-.ia-dark{background:#2F385C!important}
-.ia-blue{background:#445CAD!important}
-.ia-light{background:#E8EFFC!important}
+.ia-dark{background:#324E70!important}
+.ia-blue{background:#3468A0!important}
+.ia-light{background:#DCEAF6!important}
 .b-main .ico-anim{width:56px;height:56px}
 @media (prefers-reduced-motion:reduce){.ico-anim picture{display:grid;place-items:center}.ico-anim img{width:24px;height:24px;margin:auto}.ico-anim{display:grid;place-items:center}.b-main .ico-anim img{width:28px;height:28px}}
 
@@ -706,7 +703,7 @@ function imgFallback(img){var f=img.getAttribute('data-fallback');if(f&&img.src.
             <g class="g g-plan">
               <path d="M180 205 L220 205 L216 300 Q200 325 184 300 Z" fill="none" stroke="#9cc3ea" stroke-width="2.5" stroke-dasharray="7 6"/>
               <path d="M240 205 v110 M234 205 h12 M234 315 h12" stroke="#c7dcf0" stroke-width="2"/>
-              <text x="252" y="265" fill="#E2ECF6" font-size="16" font-weight="700" font-family="Manrope,sans-serif">10 мм</text>
+              <text x="252" y="265" fill="#E2ECF6" font-size="16" font-weight="700" font-family="Onest,sans-serif">10 мм</text>
             </g>
             <g class="g g-socket"><path d="M168 196 Q200 214 232 196" fill="none" stroke="#c96f80" stroke-width="3" stroke-linecap="round"/></g>
             <g class="g g-implant">
