@@ -580,6 +580,26 @@ footer .offer p{margin-top:10px;max-width:880px;line-height:1.55}
 @media (max-width:640px){.cs-slide{flex-basis:88%;border-radius:20px}.cs-veil b{font-size:19px}.cs-veil span{font-size:14px}}
 @media (prefers-reduced-motion:reduce){.cs-track{scroll-behavior:auto}.cs-slide img{transition:none}}
 
+
+/* ABOUT */
+.ab-grid{display:grid;grid-template-columns:5fr 6fr;gap:48px;align-items:start}
+@media (min-width:901px){.ab-photo{position:sticky;top:110px;aspect-ratio:4/5}.ab-photo img{object-position:50% 60%}}
+.ab-text p{color:var(--muted);margin-top:14px}
+.ab-text .lead{color:var(--ink);margin-top:0}
+.ab-stats{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:26px 0 28px}
+.ab-stats li{background:var(--surface);border-radius:var(--r-sm);box-shadow:var(--shadow);padding:16px 18px}
+.ab-stats b{display:block;font-size:26px;font-weight:800;color:var(--accent);line-height:1.1}
+.ab-stats span{font-size:14px;color:var(--muted);line-height:1.35;display:block;margin-top:4px}
+.ab-link{gap:10px}
+.ab-photo{position:relative;margin:0;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);aspect-ratio:3/2;background:#2a2320}
+.ab-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.ab-photo figcaption{position:absolute;left:0;right:0;bottom:0;padding:40px 20px 16px;font-size:14px;font-weight:600;color:#fff;background:linear-gradient(0deg,rgba(13,24,66,.8),rgba(13,24,66,0))}
+.ab-badge{position:absolute;top:16px;right:16px;background:var(--glass);backdrop-filter:blur(8px);border-radius:16px;padding:10px 14px;color:var(--ink)}
+.ab-badge b{display:block;font-size:14px}
+.ab-badge span{font-size:12px;color:var(--muted)}
+@media (max-width:900px){.ab-grid{grid-template-columns:1fr;gap:28px}.ab-photo{order:-1}}
+@media (max-width:420px){.ab-stats b{font-size:22px}.ab-link{width:100%}}
+
 /* ===== Тёмная тема ===== */
 :root[data-theme="dark"]{
   --blue:#3556c4;--blue-700:#2a47aa;--bright:#6f91ff;
@@ -958,6 +978,35 @@ function imgFallback(img){
         <button type="button" class="cs-btn" id="csNext" aria-label="Следующее фото"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button>
         <button type="button" class="cs-hide" id="csHide" hidden>Скрыть фото</button>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== О клинике ===== -->
+<section class="about" id="about" style="padding-top:20px">
+  <div class="wrap">
+    <div class="ab-grid">
+      <div class="ab-text rv">
+        <span class="eyebrow">О клинике</span>
+        <h2>Стоматология «АВЕдент» в&nbsp;Набережных Челнах</h2>
+        <p class="lead">Мы лечим зубы в&nbsp;Набережных Челнах с&nbsp;2002 года. Раньше клиника называлась «РЕдент», а&nbsp;сегодня «АВЕдент» — семейная стоматология, куда приходят целыми семьями и&nbsp;приводят друзей.</p>
+        <p>Здесь можно решить любую задачу в&nbsp;одном месте: лечение кариеса и&nbsp;каналов, профессиональная гигиена, удаление зубов, имплантация зубов «под ключ», костная пластика, синус-лифтинг и&nbsp;протезирование на&nbsp;коронках из&nbsp;циркония. Сложные случаи разбирают вместе хирург-имплантолог и&nbsp;ортопед, поэтому план лечения учитывает и&nbsp;операцию, и&nbsp;будущую коронку.</p>
+        <p>Коронки и&nbsp;протезы изготавливает собственная зуботехническая лаборатория. Это быстрее, точнее подгоняется под ваш прикус и&nbsp;обходится дешевле: мы не&nbsp;переплачиваем посреднику, а&nbsp;экономим не&nbsp;на&nbsp;материалах.</p>
+        <p>Мы постоянно осваиваем новые технологии лечения и&nbsp;протезирования, но&nbsp;не&nbsp;забываем о&nbsp;простом: подбираем время приёма под ваш график, а&nbsp;пенсионерам и&nbsp;постоянным пациентам даём скидки.</p>
+        <ul class="ab-stats">
+          <li><b>с 2002</b><span>года принимаем пациентов</span></li>
+          <li><b>12</b><span>стоматологов разных направлений</span></li>
+          <li><b>своя</b><span>зуботехническая лаборатория</span></li>
+          <li><b>0 ₽</b><span>консультация имплантолога, хирурга и&nbsp;ортопеда</span></li>
+        </ul>
+        <a class="btn btn-ghost ab-link" href="https://avedent-med.com/" target="_blank" rel="noopener" data-goal="go_main_site">Перейти на сайт клиники «АВЕдент»
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+      </div>
+      <figure class="ab-photo rv">
+        <img src="img/team.webp" srcset="img/team-800.webp 800w, img/team.webp 1600w" sizes="(max-width:900px) 100vw, 55vw" width="1600" height="1067" loading="lazy" decoding="async" alt="Команда стоматологической клиники «АВЕдент» в Набережных Челнах: врачи, ассистенты и администраторы">
+        <figcaption>Команда «АВЕдента»: врачи, ассистенты, администраторы и&nbsp;зубные техники</figcaption>
+        <div class="ab-badge"><b>Премия 2ГИС 2026</b><span>лучшая стоматология города</span></div>
+      </figure>
     </div>
   </div>
 </section>
