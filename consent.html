@@ -7,7 +7,7 @@
 <meta name="description" content="Согласие посетителя сайта на обработку персональных данных стоматологической клиникой «Аведент».">
 <meta name="robots" content="noindex, follow">
 <meta name="theme-color" content="#2541a0">
-<script>(function(){try{var t=localStorage.getItem('theme');}catch(e){}if(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)t='dark';if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})();</script>
+<script>(function(){var t,h=new Date().getHours();try{var s=JSON.parse(localStorage.getItem('theme2')||'null');if(s&&s.u>Date.now())t=s.t;}catch(e){}if(!t)t=(h>=6&&h<18)?'light':'dark';if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})();</script>
 <link rel="icon" href="img/logo.webp" type="image/webp">
 <link rel="preload" href="fonts/onest-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="legal.css">
@@ -64,7 +64,7 @@
 <script>
 (function(){var tg=document.getElementById('themeTg'),r=document.documentElement;
 function s(){var d=r.getAttribute('data-theme')==='dark';tg.setAttribute('aria-pressed',d);tg.setAttribute('aria-label',d?'Светлая тема':'Тёмная тема');}
-s();tg.addEventListener('click',function(){var d=r.getAttribute('data-theme')!=='dark';if(d)r.setAttribute('data-theme','dark');else r.removeAttribute('data-theme');try{localStorage.setItem('theme',d?'dark':'light');}catch(e){}s();});})();
+s();tg.addEventListener('click',function(){var d=r.getAttribute('data-theme')!=='dark';if(d)r.setAttribute('data-theme','dark');else r.removeAttribute('data-theme');try{var n=new Date(),b=new Date(n);b.setMinutes(0,0,0);var hh=n.getHours();if(hh<6)b.setHours(6);else if(hh<18)b.setHours(18);else{b.setDate(b.getDate()+1);b.setHours(6);}localStorage.setItem('theme2',JSON.stringify({t:d?'dark':'light',u:b.getTime()}));}catch(e){}s();});})();
 </script>
 </body>
 </html>

@@ -11,7 +11,7 @@
 <meta property="og:description" content="Удаление и имплант за один визит. В цене имплант, абатмент, коронка и 3D-снимок. Рассрочка до 12 месяцев.">
 <meta property="og:image" content="img/garaev.webp">
 <meta name="theme-color" content="#2541a0">
-<script>(function(){try{var t=localStorage.getItem('theme');}catch(e){}if(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)t='dark';if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})();</script>
+<script>(function(){var t,h=new Date().getHours();try{var s=JSON.parse(localStorage.getItem('theme2')||'null');if(s&&s.u>Date.now())t=s.t;}catch(e){}if(!t)t=(h>=6&&h<18)?'light':'dark';if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})();</script>
 <link rel="icon" href="img/logo.webp" type="image/webp">
 <link rel="preload" href="fonts/onest-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 
@@ -1491,7 +1491,7 @@ var PRICE = 68000;
     tg.addEventListener('click',function(){
       var d=root.getAttribute('data-theme')!=='dark';
       if(d)root.setAttribute('data-theme','dark');else root.removeAttribute('data-theme');
-      try{localStorage.setItem('theme',d?'dark':'light');}catch(e){}
+      try{var n=new Date(),b=new Date(n);b.setMinutes(0,0,0);var hh=n.getHours();if(hh<6)b.setHours(6);else if(hh<18)b.setHours(18);else{b.setDate(b.getDate()+1);b.setHours(6);}localStorage.setItem('theme2',JSON.stringify({t:d?'dark':'light',u:b.getTime()}));}catch(e){}
       sync();
     });
   })();
