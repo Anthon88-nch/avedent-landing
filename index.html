@@ -257,18 +257,25 @@ section{padding:110px 0}
 @media (max-width:560px){.inc-item{grid-column:span 2}}
 
 /* BAND */
-.band{position:relative;padding:0;min-height:560px;display:flex;align-items:flex-end;margin-bottom:-48px;overflow:hidden;background:radial-gradient(800px 400px at 80% 20%,#3a5fd0,transparent 60%),linear-gradient(135deg,#1b3183,#0d1842)}
+.band{position:relative;padding:0;min-height:620px;display:flex;align-items:flex-end;margin-bottom:-48px;overflow:hidden;background:var(--navy)}
 .band-img{position:absolute;inset:0}
-.band-img img{width:100%;height:100%;object-fit:cover}
-.band-img::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,24,66,.85) 0%,rgba(13,24,66,.35) 60%,rgba(13,24,66,.1) 100%)}
-.band-in{position:relative;width:100%;padding-top:80px;padding-bottom:120px}
-.band-card{max-width:620px;color:#fff}
+.band-img img{width:100%;height:100%;object-fit:cover;object-position:45% 60%}
+.band-img::after{content:"";position:absolute;inset:0;background:linear-gradient(270deg,rgba(13,24,66,.55) 0%,rgba(13,24,66,0) 40%),linear-gradient(0deg,rgba(13,24,66,.35) 0%,rgba(13,24,66,0) 30%)}
+.band-in{position:relative;width:100%;padding-top:60px;padding-bottom:100px;display:flex;justify-content:flex-end}
+.band-card{max-width:460px;color:#fff;background:rgba(13,24,66,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:28px;padding:36px}
 .band-card .eyebrow{background:rgba(255,255,255,.14);color:#dfe7ff}
-.band-card h2{font-size:clamp(28px,3.6vw,46px)}
-.band-card p{color:rgba(255,255,255,.8);font-size:18px}
+.band-card h2{font-size:clamp(28px,3vw,42px)}
+.band-card p{color:rgba(255,255,255,.85);font-size:18px}
 .band-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
 .band-chips span{padding:8px 14px;border-radius:99px;background:rgba(255,255,255,.14);backdrop-filter:blur(6px);font-weight:700;font-size:14px}
-@media (max-width:820px){.band{min-height:480px}.band-in{padding-top:60px;padding-bottom:100px}}
+@media (max-width:1100px){
+  .band{display:block;min-height:0}
+  .band-img{position:relative;aspect-ratio:16/10;max-height:620px;width:100%}
+  .band-img img{object-position:46% 55%}
+  .band-img::after{background:linear-gradient(0deg,var(--navy) 0%,rgba(13,24,66,0) 35%)}
+  .band-in{display:block;padding-top:8px;padding-bottom:96px}
+  .band-card{max-width:none;background:none;backdrop-filter:none;-webkit-backdrop-filter:none;border:0;padding:0}
+}
 
 /* VIDEO */
 .video-box{display:grid;grid-template-columns:7fr 5fr;gap:16px;align-items:stretch}
@@ -664,14 +671,14 @@ function imgFallback(img){
 <!-- ===== Фото-разбивка ===== -->
 <section class="band" aria-label="Клиника">
   <div class="band-img">
-    <img src="img/clinic-band.webp" data-fallback="https://static.tildacdn.com/tild3763-6433-4134-b464-306366343431/kabinet-stomatologa-.jpg" alt="Кабинет хирурга-имплантолога в клинике «Аведент», Набережные Челны" loading="lazy" onerror="imgFallback(this)">
+    <img src="img/clinic-band.webp" srcset="img/clinic-band-1200.webp 1200w, img/clinic-band.webp 2400w" sizes="100vw" alt="Администраторы на ресепшене клиники «Аведент», Набережные Челны" width="2400" height="1350" loading="lazy">
   </div>
   <div class="wrap band-in">
     <div class="band-card rv">
       <span class="eyebrow">Клиника «Аведент»</span>
-      <h2>Операция — в&nbsp;хирургическом кабинете, а&nbsp;не&nbsp;«в&nbsp;кресле у&nbsp;терапевта»</h2>
-      <p>Набережночелнинский проспект, 41. Работаем с 8:00, в субботу тоже — можно прийти до работы.</p>
-      <div class="band-chips"><span>Премия 2ГИС 2026</span><span>Микроскоп Zumax</span><span>3D-диагностика</span></div>
+      <h2>Вас встретят, всё объяснят и&nbsp;подберут удобное время</h2>
+      <p>Администраторы запишут на консультацию, ответят на вопросы о лечении и помогут оформить рассрочку. Набережночелнинский проспект, 41, 2 этаж.</p>
+      <div class="band-chips"><span>Пн–Пт 8:00–19:00</span><span>Сб 8:00–14:00</span><span>Премия 2ГИС 2026</span></div>
     </div>
   </div>
 </section>
