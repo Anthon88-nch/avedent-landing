@@ -503,6 +503,15 @@ footer{padding:40px 0 120px;font-size:14px;color:var(--muted)}
 footer .wrap{display:grid;grid-template-columns:auto 1fr auto;gap:28px;align-items:start}
 footer img{height:56px;width:auto;border-radius:10px}
 footer p + p{margin-top:4px}
+footer .f-map{grid-column:1/-1;display:grid;grid-template-columns:1.7fr 1fr;gap:20px;align-items:stretch}
+.map-box{position:relative;height:360px;border-radius:24px;overflow:hidden;background:var(--sky);box-shadow:var(--shadow)}
+.map-box iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.map-ph{position:absolute;inset:0;width:100%;border:0;cursor:pointer;display:grid;place-content:center;justify-items:center;gap:8px;font:inherit;font-weight:700;font-size:15px;color:var(--accent);background:radial-gradient(circle at 50% 45%,var(--surface) 0,transparent 70%),repeating-linear-gradient(0deg,transparent 0 46px,var(--sky-2) 46px 48px),repeating-linear-gradient(90deg,transparent 0 46px,var(--sky-2) 46px 48px),var(--sky)}
+.map-info{background:var(--surface);border-radius:24px;box-shadow:var(--shadow);padding:26px;display:flex;flex-direction:column;gap:6px;color:var(--muted);font-size:15px}
+.map-info b{font-size:20px;color:var(--ink);margin-bottom:4px}
+.map-btns{display:flex;flex-direction:column;gap:10px;margin-top:auto;padding-top:14px}
+.map-btns .btn{justify-content:center;text-align:center;padding:14px 18px;font-size:15px}
+@media (max-width:800px){footer .f-map{grid-template-columns:1fr}.map-box{height:300px}}
 footer .offer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:14px}
 footer .offer summary{cursor:pointer;font-weight:700;color:var(--ink);list-style:none;display:inline-flex;align-items:center;gap:8px}
 footer .offer summary::-webkit-details-marker{display:none}
@@ -1109,6 +1118,23 @@ function imgFallback(img){
       <p><a href="tel:+78552319011">8 8552 31-90-11</a></p>
       <p><a href="mailto:redent2007@yandex.ru">redent2007@yandex.ru</a></p>
     </div>
+    <div class="f-map">
+      <div class="map-box" id="mapBox" data-src="https://widgets.2gis.com/widget?type=firmsonmap&amp;options=%7B%22pos%22%3A%7B%22lat%22%3A55.713698%2C%22lon%22%3A52.364603%2C%22zoom%22%3A16%7D%2C%22opt%22%3A%7B%22city%22%3A%22nabchelny%22%7D%2C%22org%22%3A%5B%7B%22id%22%3A%224081915443286830%22%7D%5D%7D">
+        <button type="button" class="map-ph" id="mapLoad" aria-label="Показать карту 2ГИС">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+          <span>Показать карту</span>
+        </button>
+      </div>
+      <div class="map-info">
+        <b>Как нас найти</b>
+        <p>Набережночелнинский проспект, 41, офис 202, 2&nbsp;этаж</p>
+        <p>Пн–Пт 8:00–19:00, Сб 8:00–14:00</p>
+        <div class="map-btns">
+          <a class="btn btn-primary" href="https://go.2gis.com/ZGjs0" target="_blank" rel="noopener" data-goal="route_2gis">Маршрут в 2ГИС</a>
+          <a class="btn btn-ghost" href="https://yandex.ru/maps/-/CXCFB831" target="_blank" rel="noopener" data-goal="route_yandex">Схема проезда в Яндекс Картах</a>
+        </div>
+      </div>
+    </div>
     <details class="offer">
       <summary>Сайт не является публичной офертой</summary>
       <p>Обращаем ваше внимание на то, что данный интернет-сайт носит исключительно информационный характер и ни при каких условиях не является публичной офертой. Для получения подробной информации о стоимости, наименовании и сроках оказания услуг, пожалуйста, обращайтесь по номеру телефона, указанному в контактах. Конкретный перечень услуг и порядок их предоставления определяются в договоре оказания услуг, оформляемом между клиникой и пациентом.</p>
@@ -1177,6 +1203,14 @@ var PRICE = 68000;
 
 
 
+
+  /* 2GIS map: lazy load */
+  (function(){
+    var box=document.getElementById('mapBox');if(!box)return;var done=false;
+    function load(){if(done)return;done=true;var f=document.createElement('iframe');f.src=box.getAttribute('data-src');f.title='Клиника «Аведент» на карте 2ГИС';f.loading='lazy';f.setAttribute('referrerpolicy','no-referrer-when-downgrade');box.appendChild(f);f.addEventListener('load',function(){var b=document.getElementById('mapLoad');if(b)b.remove();});}
+    document.getElementById('mapLoad').addEventListener('click',load);
+    if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){if(es[0].isIntersecting){io.disconnect();load();}},{rootMargin:'300px 0px'});io.observe(box);}
+  })();
   /* cookie notice */
   (function(){
     var ck=document.getElementById('ck'),ok;try{ok=localStorage.getItem('ck_ok');}catch(e){}
