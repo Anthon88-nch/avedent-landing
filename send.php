@@ -53,7 +53,7 @@ $dir = sys_get_temp_dir() . '/avedent_rl';
 if (!is_dir($dir)) @mkdir($dir, 0700, true);
 $ipKey = $dir . '/' . hash('sha256', ($_SERVER['REMOTE_ADDR'] ?? '') . SECRET);
 $now = time();
-$hits = array_filter(array_map('intval', @file($ipKey, FILE_IGNORE_NEW_LINES) ?: []), fn($x) => $x > $now - RATE_WINDOW);
+$hits = array_filter(array_map('intval', @file($ipKey, FILE_IGNORE_NEW_LINES) ?: []), function ($x) use ($now) { return $x > $now - RATE_WINDOW; });
 if (count($hits) >= RATE_LIMIT) out(429, ['ok' => false, 'error' => 'too many']);
 $hits[] = $now;
 @file_put_contents($ipKey, implode("\n", $hits), LOCK_EX);
