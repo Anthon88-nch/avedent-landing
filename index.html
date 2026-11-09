@@ -505,7 +505,9 @@ footer img{height:56px;width:auto;border-radius:10px}
 footer p + p{margin-top:4px}
 footer .f-map{grid-column:1/-1;display:grid;grid-template-columns:1.7fr 1fr;gap:20px;align-items:stretch}
 .map-box{position:relative;height:360px;border-radius:24px;overflow:hidden;background:var(--sky);box-shadow:var(--shadow)}
-.map-box iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.dg-map{position:absolute;inset:0;width:100%;height:100%}
+.map-ph{z-index:2}
+.map-box .leaflet-popup-content{font-family:Onest,sans-serif;font-size:13px;color:#121735}
 .map-ph{position:absolute;inset:0;width:100%;border:0;cursor:pointer;display:grid;place-content:center;justify-items:center;gap:8px;font:inherit;font-weight:700;font-size:15px;color:var(--accent);background:radial-gradient(circle at 50% 45%,var(--surface) 0,transparent 70%),repeating-linear-gradient(0deg,transparent 0 46px,var(--sky-2) 46px 48px),repeating-linear-gradient(90deg,transparent 0 46px,var(--sky-2) 46px 48px),var(--sky)}
 .map-info{background:var(--surface);border-radius:24px;box-shadow:var(--shadow);padding:26px;display:flex;flex-direction:column;gap:6px;color:var(--muted);font-size:15px}
 .map-info b{font-size:20px;color:var(--ink);margin-bottom:4px}
@@ -1119,7 +1121,8 @@ function imgFallback(img){
       <p><a href="mailto:redent2007@yandex.ru">redent2007@yandex.ru</a></p>
     </div>
     <div class="f-map">
-      <div class="map-box" id="mapBox" data-src="https://widgets.2gis.com/widget?type=firmsonmap&amp;options=%7B%22pos%22%3A%7B%22lat%22%3A55.713698%2C%22lon%22%3A52.364603%2C%22zoom%22%3A16%7D%2C%22opt%22%3A%7B%22city%22%3A%22nabchelny%22%7D%2C%22org%22%3A%5B%7B%22id%22%3A%224081915443286830%22%7D%5D%7D">
+      <div class="map-box" id="mapBox">
+        <div id="dgMap" class="dg-map"></div>
         <button type="button" class="map-ph" id="mapLoad" aria-label="Показать карту 2ГИС">
           <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
           <span>Показать карту</span>
@@ -1204,13 +1207,26 @@ var PRICE = 68000;
 
 
 
-  /* 2GIS map: lazy load */
+  /* 2GIS map: lazy load (API 2.0, без ключа) */
   (function(){
-    var box=document.getElementById('mapBox');if(!box)return;var done=false;
-    function load(){if(done)return;done=true;var f=document.createElement('iframe');f.src=box.getAttribute('data-src');f.title='Клиника «Аведент» на карте 2ГИС';f.loading='lazy';f.setAttribute('referrerpolicy','no-referrer-when-downgrade');box.appendChild(f);f.addEventListener('load',function(){var b=document.getElementById('mapLoad');if(b)b.remove();});}
-    document.getElementById('mapLoad').addEventListener('click',load);
+    var box=document.getElementById('mapBox');if(!box)return;var done=false,LAT=55.713698,LON=52.364603;
+    var btn=document.getElementById('mapLoad');
+    function fail(){btn.disabled=false;btn.querySelector('span').textContent='Карта не загрузилась — открыть в 2ГИС';btn.onclick=function(){window.open('https://go.2gis.com/ZGjs0','_blank','noopener');};}
+    function load(){if(done)return;done=true;btn.disabled=true;btn.querySelector('span').textContent='Загружаем карту…';
+      var sc=document.createElement('script');sc.src='https://maps.api.2gis.ru/2.0/loader.js?pkg=full';sc.async=true;sc.onerror=fail;
+      var t=setTimeout(fail,12000);
+      sc.onload=function(){ if(!window.DG){clearTimeout(t);fail();return;}
+        DG.then(function(){clearTimeout(t);
+          var m=DG.map('dgMap',{center:[LAT,LON],zoom:16,fullscreenControl:false,scrollWheelZoom:false});
+          DG.marker([LAT,LON]).addTo(m).bindPopup('<b>Стоматология «АВЕдент»</b><br>Набережночелнинский пр-т, 41, офис 202').openPopup();
+          btn.remove();
+        });
+      };
+      document.head.appendChild(sc);}
+    btn.addEventListener('click',load);
     if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){if(es[0].isIntersecting){io.disconnect();load();}},{rootMargin:'300px 0px'});io.observe(box);}
   })();
+
   /* cookie notice */
   (function(){
     var ck=document.getElementById('ck'),ok;try{ok=localStorage.getItem('ck_ok');}catch(e){}
