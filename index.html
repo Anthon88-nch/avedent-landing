@@ -368,6 +368,18 @@ section{padding:110px 0}
 .d-edu ul{list-style:none;display:grid;gap:10px}
 .d-edu li{padding-left:22px;position:relative}
 .d-edu li::before{content:"";position:absolute;left:0;top:10px;width:8px;height:8px;border-radius:50%;background:var(--bright)}
+.d-edu li b{display:block;font-weight:700;line-height:1.4}
+.d-edu li span{display:block;font-size:14px;color:var(--muted);margin-top:2px}
+.d-edu .edu{grid-template-columns:1fr 1fr;gap:10px 24px}
+.courses{margin-top:20px;border-top:1px solid var(--line);padding-top:16px}
+.courses summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;font-weight:700;color:var(--ink)}
+.courses summary::-webkit-details-marker{display:none}
+.courses summary em{font-style:normal;font-size:13px;font-weight:800;background:var(--sky);color:var(--accent);border-radius:99px;padding:2px 10px}
+.courses summary::after{content:"";margin-left:auto;width:28px;height:28px;flex:none;border-radius:50%;background:var(--sky) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233f6df0' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center/16px no-repeat;transition:transform .3s var(--ease)}
+.courses[open] summary::after{transform:rotate(180deg)}
+.courses ul{margin-top:16px}
+.courses li b{font-weight:600;font-size:15px}
+@media (max-width:640px){.d-edu .edu{grid-template-columns:1fr}}
 .todo{background:var(--surface)4c2;border-radius:6px;padding:0 6px}
 .clinic-strip{grid-template-columns:repeat(3,1fr);margin-top:16px}
 .clinic-strip figure{border-radius:var(--r);overflow:hidden;aspect-ratio:4/3;background:var(--sky-2);position:relative}
@@ -851,19 +863,30 @@ function imgFallback(img){
         <p>Его принцип — сохранить как можно больше своей кости и десны. Поэтому если одномоментная имплантация вам не подходит, он скажет об этом прямо на консультации и предложит другой вариант, а не будет «подгонять» случай под акцию.</p>
       </div>
       <div class="d-fact rv">
+        <div class="card"><b>Стаж более 8&nbsp;лет</b><span>в хирургической стоматологии и имплантации</span></div>
         <div class="card"><b>Хирург-имплантолог</b><span>удаление, имплантация, костная пластика, синус-лифтинг</span></div>
-        <div class="card"><b>Главный врач</b><span>отвечает за качество лечения во всей клинике</span></div>
-        <div class="card"><b>Премия 2ГИС 2026</b><span>клиника «Аведент» — рейтинг 5,0 в 2ГИС</span></div>
+        <div class="card"><b>Сертификат врача</b><span>№&nbsp;7725032820566, действителен до 2030&nbsp;г.</span></div>
       </div>
       <div class="card d-edu rv">
-        <h4>Образование и повышение квалификации</h4>
-        <!-- ЗАПОЛНИТЬ: данные со страницы https://avedent-med.com/stomatolog/garaev-albert-radikovich/ -->
-        <ul>
-          <li><span class="todo">Вуз, специальность, год окончания</span></li>
-          <li><span class="todo">Ординатура / интернатура — специализация, год</span></li>
-          <li><span class="todo">Курсы по имплантологии — название, год</span></li>
-          <li><span class="todo">Стаж работы — с ____ года</span></li>
+        <h4>Образование</h4>
+        <ul class="edu">
+          <li><b>ИГМА, стоматологический факультет</b><span>2017</span></li>
+          <li><b>КГМУ, стоматология хирургическая</b><span>2019</span></li>
         </ul>
+        <details class="courses">
+          <summary>Курсы повышения квалификации <em>9</em></summary>
+          <ul>
+            <li><b>Практическая имплантология и тотальная реабилитация. Костная пластика аутотканями</b><span>Лекторы Никита Карасев, Георгий Азниев · 24–26 июня 2025, Санкт-Петербург</span></li>
+            <li><b>Протезирование полной дуги с опорой на 4 и 6 имплантатов</b><span>Лектор Пётр Лазукин · 18 августа 2024, Санкт-Петербург</span></li>
+            <li><b>Протезирование полной дуги с опорой на имплантаты. Ошибки и осложнения в имплантологическом лечении</b><span>Лектор Пётр Лазукин · 9–10 декабря 2023, Казань</span></li>
+            <li><b>Установка имплантатов с аугментацией альвеолярного гребня и синус-лифтинг</b><span>Лектор Пётр Лазукин · 11–12 ноября 2023, Москва</span></li>
+            <li><b>Прогнозируемая костная пластика в дентальной имплантологии. Протоколы минимизации осложнений</b><span>Лектор Ильгам Уразбахтин · 18–19 сентября 2021, Санкт-Петербург</span></li>
+            <li><b>Импланты с полированной шейкой на каждый день. Практический курс</b><span>Лектор Павел Шишлов · 7 августа 2021, Казань</span></li>
+            <li><b>Эстетика мягких тканей — планирование и реализация</b><span>Лектор Анастасия Смолякова · 27–28 марта 2021, Нижний Новгород</span></li>
+            <li><b>Курс по осложнениям в имплантологической практике</b><span>15 ноября 2019, Казань</span></li>
+            <li><b>Хирургический шаблон при проведении имплантологического лечения</b><span>Лектор Григорьев С. В. · 3 августа 2019, Казань</span></li>
+          </ul>
+        </details>
       </div>
     </div>
 
