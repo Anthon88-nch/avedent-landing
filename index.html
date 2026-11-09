@@ -607,6 +607,13 @@ footer .offer p{margin-top:10px;max-width:880px;line-height:1.55}
 .fb.show .fb-btn,.fb.show .fb-panel{pointer-events:auto}
 .fb-btn{width:72px;height:72px;border:0;padding:4px;border-radius:50%;cursor:pointer;background:linear-gradient(150deg,#3f6df0,#2541a0);box-shadow:0 10px 28px -6px rgba(37,65,160,.6),inset 0 0 0 2px rgba(255,255,255,.25);display:grid;place-items:center;transition:transform .25s var(--ease)}
 .fb-btn:hover{transform:scale(1.06)}
+@media (min-width:821px) and (prefers-reduced-motion:no-preference){
+  .fb-btn{position:relative}
+  .fb-btn::before,.fb-btn::after{content:"";position:absolute;inset:0;border-radius:50%;background:rgba(63,109,240,.45);z-index:-1;animation:fbPulse 2.4s ease-out infinite}
+  .fb-btn::after{animation-delay:1.2s}
+  .fb-btn[aria-expanded="true"]::before,.fb-btn[aria-expanded="true"]::after{animation:none;opacity:0}
+}
+@keyframes fbPulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.7);opacity:0}}
 .fb-btn:focus-visible{outline:3px solid var(--bright);outline-offset:3px}
 .fb-btn img{width:64px;height:64px;display:block}
 .fb-panel{width:320px;max-width:calc(100vw - 24px);max-height:calc(100vh - 120px);overflow:auto;background:var(--surface);color:var(--ink);border-radius:24px;box-shadow:0 20px 50px -12px rgba(13,24,66,.45);padding:18px;transform-origin:bottom right;animation:fbIn .25s var(--ease)}
