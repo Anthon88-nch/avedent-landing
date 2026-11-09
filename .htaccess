@@ -1,0 +1,78 @@
+# ==== Лендинг «АВЕдент»: настройки для хостинга на Apache (Beget, Timeweb, REG.RU и т. п.) ====
+# На GitHub Pages этот файл не действует — он нужен после переноса на хостинг.
+
+Options -Indexes
+ServerSignature Off
+AddDefaultCharset utf-8
+
+# --- HTTPS и без www (поменяйте домен, если другой) ---
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# --- Закрыть служебные файлы: .git, .htaccess, README, исходники ---
+<IfModule mod_rewrite.c>
+  RewriteRule (^|/)\.(?!well-known/) - [F,L]
+</IfModule>
+<FilesMatch "(?i)^(README\.md|.*\.(md|bak|sql|log|ini|sh|zip|tar|gz))$">
+  Require all denied
+</FilesMatch>
+
+# --- Заголовки безопасности ---
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+  Header always set Cross-Origin-Opener-Policy "same-origin-allow-popups"
+  Header unset X-Powered-By
+
+  # Политика загрузки ресурсов (CSP). Сначала включена в режиме «только отчёт»:
+  # откройте сайт, загляните в консоль браузера (F12) — если нет ошибок CSP,
+  # замените Content-Security-Policy-Report-Only на Content-Security-Policy.
+  Header always set Content-Security-Policy-Report-Only "default-src 'self'; \
+script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://yastatic.net https://myreviews.dev; \
+style-src 'self' 'unsafe-inline' https://myreviews.dev; \
+img-src 'self' data: blob: https://mc.yandex.ru https://static.tildacdn.com https://myreviews.dev https://*.myreviews.dev; \
+font-src 'self' data: https://myreviews.dev; \
+connect-src 'self' https://mc.yandex.ru wss://mc.yandex.ru https://myreviews.dev https://*.myreviews.dev; \
+frame-src https://yandex.ru https://mc.yandex.ru https://myreviews.dev; \
+media-src 'self' https://a022ba22-5499-4b20-991a-7995cfae334c.selstorage.ru; \
+frame-ancestors 'self' https://webvisor.com https://*.webvisor.com https://metrika.yandex.ru; \
+form-action 'self'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+</IfModule>
+
+# --- Обработчик заявок: только GET ?token и POST ---
+<Files "send.php">
+  <IfModule mod_headers.c>
+    Header always set Cache-Control "no-store"
+  </IfModule>
+</Files>
+
+# --- Кэш статики ---
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType image/webp "access plus 6 months"
+  ExpiresByType image/jpeg "access plus 6 months"
+  ExpiresByType image/png "access plus 6 months"
+  ExpiresByType image/gif "access plus 6 months"
+  ExpiresByType image/svg+xml "access plus 6 months"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+# --- Сжатие ---
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+# --- Типы файлов ---
+AddType font/woff2 .woff2
+AddType image/webp .webp

@@ -586,7 +586,7 @@ footer .offer p{margin-top:10px;max-width:880px;line-height:1.55}
 .cs-btn:disabled{opacity:.4;cursor:default}
 .cs-cnt{font-weight:800;font-variant-numeric:tabular-nums;min-width:64px;text-align:center}
 .cs-hide{margin-left:auto;border:0;background:none;color:var(--muted);font:inherit;font-size:14px;font-weight:600;cursor:pointer;text-decoration:underline}
-.cs.blur .cs-btn,.cs.blur .cs-cnt{opacity:.4;pointer-events:none}
+.cs.blur .cs-btn{opacity:.4;pointer-events:none}
 @media (max-width:640px){.cs-slide{flex-basis:88%;border-radius:20px}.cs-veil b{font-size:19px}.cs-veil span{font-size:14px}}
 @media (prefers-reduced-motion:reduce){.cs-track{scroll-behavior:auto}.cs-slide img{transition:none}}
 
@@ -661,6 +661,7 @@ footer .offer p{margin-top:10px;max-width:880px;line-height:1.55}
 .msgr a i svg{width:15px;height:15px}
 .msgr a i b{font-size:9px;font-weight:800}
 .msgr a i img{width:24px;height:24px;border-radius:50%;display:block}
+.hp{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
 /* ===== Тёмная тема ===== */
 :root[data-theme="dark"]{
   --blue:#3556c4;--blue-700:#2a47aa;--bright:#6f91ff;
@@ -1302,11 +1303,14 @@ function imgFallback(img){
           <fieldset class="q-step" data-q="5">
             <legend>Почти готово!</legend>
             <p class="sub" id="qResult">Врач посмотрит ваши ответы и перезвонит, чтобы рассказать, подходит ли вам одномоментная имплантация и сколько это будет стоить.</p>
-            <input type="text" name="name" placeholder="Ваше имя" autocomplete="name" required>
+            <input type="text" name="name" placeholder="Ваше имя" autocomplete="name" maxlength="60" required>
             <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" required>
             <input type="hidden" name="service" value="Одномоментная имплантация">
+            <!-- антибот: поле-ловушка (люди его не видят), метки времени и токен сервера -->
+            <div class="hp" aria-hidden="true"><label>Ваш сайт <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+            <input type="hidden" name="ts"><input type="hidden" name="tk"><input type="hidden" name="hm">
             <button class="btn btn-primary" type="submit">Получить ответ врача</button>
-            <label class="agree"><input type="checkbox" name="agree" required> <span>Даю <a href="consent.html" target="_blank">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html" target="_blank">политику конфиденциальности</a></span></label>
+            <label class="agree"><input type="checkbox" name="agree" required> <span>Даю <a href="consent.html" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html" target="_blank" rel="noopener">политику конфиденциальности</a></span></label>
           </fieldset>
         </form>
         <div class="ok"><h3>Спасибо!</h3><p class="sub" style="margin:8px 0 0">Администратор перезвонит в течение 15 минут в рабочее время и подберёт удобное время консультации.</p></div>
@@ -1526,7 +1530,7 @@ var PRICE = 68000;
     steps.forEach(function(s){ s.classList.toggle('on', s === el); });
     scene.setAttribute('data-step', n);
     scene.querySelectorAll('.sp').forEach(function(p){ p.classList.toggle('on', p.getAttribute('data-n') === n); });
-    cnt.innerHTML = '0' + n + '<span> / 05</span>';
+    cnt.firstChild.nodeValue = '0' + n;
     ttl.textContent = el.getAttribute('data-title');
     prog.style.width = (n * 20) + '%';
     document.querySelectorAll('#dots button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-go') === n); });
@@ -1610,6 +1614,25 @@ var PRICE = 68000;
   });
   qBack.addEventListener('click', function(){ if (qCur > 1) showQ(qCur - 1); });
 
+  /* антибот без капчи: живой человек двигает мышью/жмёт клавиши, проходит 4 вопроса и тратит на это время.
+     Бот, который шлёт POST напрямую, не получит токен сервера (send.php?token), а бот, который заполняет все поля, попадёт в ловушку. */
+  var human = 0, tStart = Date.now();
+  ['pointerdown','keydown','touchstart','scroll'].forEach(function(ev){ window.addEventListener(ev, function(){ human++; }, {passive:true, once:false}); });
+  form.ts.value = tStart;
+  function getToken(){
+    if (!FORM_ENDPOINT || form.tk.value) return;
+    fetch(FORM_ENDPOINT + '?token=1', {credentials:'same-origin'}).then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){ if (j && j.t){ form.tk.value = j.t; form.hm.value = j.h; } }).catch(function(){});
+  }
+  form.addEventListener('click', getToken, {once:true});
+  function looksLikeBot(){
+    if (form.website.value) return true;                 // заполнено поле-ловушка
+    if (Date.now() - tStart < 5000) return true;          // квиз из 4 вопросов быстрее 5 секунд не пройти
+    if (human < 3) return true;                           // не было ни кликов, ни нажатий
+    if (navigator.webdriver) return true;                 // headless-браузер
+    return false;
+  }
+
   form.agree.addEventListener('change', function(){ form.agree.closest('.agree').classList.remove('err'); });
   form.addEventListener('submit', function(e){
     e.preventDefault();
@@ -1617,19 +1640,22 @@ var PRICE = 68000;
     if (!name){ form.name.focus(); return; }
     if (phone.length !== 11){ form.phone.focus(); return; }
     if (!form.agree.checked){ form.agree.closest('.agree').classList.add('err'); form.agree.focus(); return; }
+    if (looksLikeBot()){ box.classList.add('sent'); return; }   // боту показываем «успех», но ничего не отправляем
     goal('lead');
     var answers = ['tooth','state','when','pay'].map(function(k){
       var c = form.querySelector('input[name=' + k + ']:checked'); return c ? c.value : '—';
     });
     if (FORM_ENDPOINT){
-      fetch(FORM_ENDPOINT, {method:'POST', body:new FormData(form)})
-        .then(function(){ box.classList.add('sent'); })
-        .catch(function(){ alert('Не получилось отправить. Позвоните нам: 8 800 550-16-34'); });
+      var btnS = form.querySelector('button[type=submit]'); btnS.disabled = true;
+      fetch(FORM_ENDPOINT, {method:'POST', body:new FormData(form), credentials:'same-origin'})
+        .then(function(r){ if (!r.ok) throw new Error(r.status); box.classList.add('sent'); })
+        .catch(function(){ btnS.disabled = false; alert('Не получилось отправить. Позвоните нам: 8 800 550-16-34'); });
+      return;
     } else {
       var txt = 'Здравствуйте! Хочу на консультацию по одномоментной имплантации.\n' +
         'Зуб: ' + answers[0] + '\nСостояние: ' + answers[1] + '\nКогда: ' + answers[2] + '\nОплата: ' + answers[3] +
         '\n' + name + ', ' + form.phone.value;
-      window.open('https://wa.me/' + WA_PHONE + '?text=' + encodeURIComponent(txt), '_blank');
+      window.open('https://wa.me/' + WA_PHONE + '?text=' + encodeURIComponent(txt), '_blank', 'noopener');
       box.classList.add('sent');
     }
   });
