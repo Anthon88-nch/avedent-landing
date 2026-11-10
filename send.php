@@ -71,13 +71,14 @@ if ($age < 3 || $age > 7200) fake_ok();                                        /
 function clean($v, $max) { $v = trim(preg_replace('/[\x00-\x1F\x7F<>]/u', ' ', (string)$v)); return mb_substr($v, 0, $max); }
 $name  = clean($_POST['name'] ?? '', 60);
 $phone = preg_replace('/\D/', '', (string)($_POST['phone'] ?? ''));
-if ($name === '' || !preg_match('/^[\p{L}\s\-\.]{2,60}$/u', $name)) out(422, ['ok' => false, 'error' => 'name']);
+if ($name !== '' && !preg_match('/^[\p{L}\s\-\.]{2,60}$/u', $name)) out(422, ['ok' => false, 'error' => 'name']);   // имя необязательно
+if ($name === '') $name = 'не указано';
 if (!preg_match('/^[78]\d{10}$/', $phone))                             out(422, ['ok' => false, 'error' => 'phone']);
 if (empty($_POST['agree']))                                              out(422, ['ok' => false, 'error' => 'agree']);
 $phone = '+7' . substr($phone, 1);
 
 $f = [];
-foreach (['tooth' => 'Зуб', 'state' => 'Состояние', 'when' => 'Когда', 'pay' => 'Оплата', 'service' => 'Услуга'] as $k => $label) {
+foreach (['contact' => 'Как связаться', 'tooth' => 'Зуб', 'state' => 'Состояние', 'when' => 'Когда', 'pay' => 'Оплата', 'service' => 'Услуга'] as $k => $label) {
     $f[$label] = clean($_POST[$k] ?? '—', 80);
 }
 
@@ -88,7 +89,7 @@ $text .= "\nСогласие на обработку ПДн: да\nВремя: "
 /* --- отправка --- */
 $sent = false;
 if (MAIL_TO) {
-    $subj = '=?UTF-8?B?' . base64_encode('Заявка: одномоментная имплантация — ' . $name) . '?=';
+    $subj = '=?UTF-8?B?' . base64_encode('Заявка: имплантация — ' . $phone . ($name !== 'не указано' ? ', ' . $name : '')) . '?=';
     $hdr  = "From: " . MAIL_FROM . "\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Transfer-Encoding: 8bit";
     $sent = @mail(MAIL_TO, $subj, $text, $hdr) || $sent;
 }

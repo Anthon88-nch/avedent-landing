@@ -316,6 +316,32 @@ section{padding:110px 0}
 @media (max-width:640px){.h-main .contour{width:110%;height:170px;bottom:-60px;opacity:.12}.final-box .contour{width:120%;height:180px;bottom:-90px}}
 @media (prefers-reduced-motion:reduce){.contour .ct-acc{animation:none}.contour .ct-dot{display:none}}
 
+
+/* ПУТЬ К ЗАЯВКЕ: шаги, быстрый вход, выбор связи, экран «спасибо» */
+.path{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 26px;counter-reset:p}
+.path li{counter-increment:p;background:rgba(255,255,255,.08);border-radius:16px;padding:12px 14px;font-size:14px;line-height:1.3}
+.path li::before{content:counter(p);display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#fff;color:var(--navy);font-weight:800;font-size:12px;margin-bottom:6px}
+.path b{display:block;font-size:15px}.path span{color:rgba(255,255,255,.65)}
+.q-skip{display:block;width:100%;margin-top:6px;padding:10px 0 0;border:0;background:none;color:var(--accent);font-weight:700;font-size:14px;cursor:pointer;text-align:left}
+.q-skip:hover{text-decoration:underline}
+.form.last .q-skip{display:none}
+.fld{display:block}.fld>span{display:block;font-size:13px;font-weight:700;color:var(--muted);margin:0 0 6px 2px}.fld i{font-style:normal;font-weight:500}
+.how{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 16px}
+.how-t{width:100%;font-size:13px;font-weight:700;color:var(--muted);margin-left:2px}
+.how label{cursor:pointer}.how input{position:absolute;opacity:0;pointer-events:none}
+.how label span{display:inline-block;padding:9px 14px;border-radius:99px;border:2px solid var(--line);background:var(--bg);font-weight:600;font-size:14px;transition:border-color .2s,background .2s}
+.how input:checked+span{border-color:var(--blue);background:var(--surface);color:var(--accent)}
+.how input:focus-visible+span{box-shadow:0 0 0 3px rgba(63,109,240,.35)}
+.ok-ic{width:60px;height:60px;border-radius:50%;margin:0 auto 14px;display:grid;place-items:center;background:var(--sky);color:var(--blue)}
+.ok-ic svg{width:30px;height:30px}
+.ok-next{list-style:none;text-align:left;display:grid;gap:8px;margin:18px 0;font-size:14.5px;color:var(--muted)}
+.ok-next li{position:relative;padding-left:22px}.ok-next li::before{content:"";position:absolute;left:4px;top:.55em;width:7px;height:7px;border-radius:50%;background:var(--bright)}
+.ok-tel{font-weight:800;color:var(--accent);text-decoration:none}.ok-tel span{white-space:nowrap}
+.form.flash{animation:fFlash 1.2s var(--ease)}
+@keyframes fFlash{0%{box-shadow:0 0 0 0 rgba(63,109,240,.6)}100%{box-shadow:0 0 0 18px rgba(63,109,240,0)}}
+@media (max-width:980px){.path{gap:8px}.path li{padding:10px 12px;font-size:13px}.path b{font-size:14px}}
+@media (max-width:560px){.path{gap:6px;margin-bottom:6px}.path li{padding:9px 8px;text-align:center;font-size:12.5px}.path li::before{display:grid;margin:0 auto 4px;width:20px;height:20px;font-size:11px}.path b{font-size:13px}.path span{display:none}}
+
 /* BAND */
 .band{position:relative;padding:0;min-height:620px;display:flex;align-items:flex-end;margin-bottom:-48px;overflow:hidden;background:var(--navy)}
 .band-img{position:absolute;inset:0}
@@ -527,6 +553,8 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .final-box h2{margin-bottom:18px}
 .final-box .lead{color:rgba(255,255,255,.75);margin-bottom:28px}
 .final-contacts{display:grid;gap:10px;font-size:16px}
+.final-box #formBox{grid-row:span 2}
+.final-side{align-self:start}
 .final-contacts a{text-decoration:none;font-weight:700}
 .final-contacts span{color:rgba(255,255,255,.65)}
 .form{background:var(--surface);color:var(--ink);border-radius:var(--r);padding:32px}
@@ -534,6 +562,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .form .sub{color:var(--muted);font-size:15px;margin-bottom:20px}
 .form input[type=text],.form input[type=tel]{width:100%;border:2px solid var(--line);border-radius:14px;padding:16px 18px;font-size:17px;margin-bottom:12px;background:var(--bg);transition:border-color .2s;color:var(--ink)}
 .form input:focus{outline:none;border-color:var(--blue);background:var(--surface)}
+.form input.err{border-color:#d23c4f}
 .form .btn{width:100%;margin-top:4px}
 .form .agree{display:flex;gap:10px;font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.4}
 .form .agree input{margin-top:2px;flex:none;width:18px;height:18px;accent-color:var(--blue)}
@@ -756,7 +785,7 @@ function imgFallback(img){
       <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
       <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
     </button>
-    <a class="btn btn-primary" href="#form" data-goal="cta_header">Записаться</a>
+    <a class="btn btn-primary" href="#form" data-flow="quick" data-goal="cta_header">Записаться</a>
   </div>
 </header>
 
@@ -1227,7 +1256,7 @@ function imgFallback(img){
           <div class="row"><span class="t">В месяц</span><span class="m" id="perMonth">5 667 ₽</span></div>
           <div class="row"><span class="t">Итого</span><b id="total">68 000 ₽</b></div>
         </div>
-        <a class="btn btn-primary" href="#form" data-goal="cta_calc">Оформить рассрочку</a>
+        <a class="btn btn-primary" href="#form" data-pay="Рассрочка" data-goal="cta_calc">Оформить рассрочку</a>
       </div>
     </div>
   </div>
@@ -1304,21 +1333,11 @@ function imgFallback(img){
       <svg class="contour" viewBox="0 0 600 300" preserveAspectRatio="none" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"><path d="M-10,8 C170,208 430,208 610,-6"/><path d="M-10,24 C170,215 430,215 610,13"/><path d="M-10,56 C170,229 430,229 610,51"/><path d="M-10,72 C170,236 430,236 610,70"/><path d="M-10,88 C170,243 430,243 610,89"/><path d="M-10,104 C170,250 430,250 610,108"/><path d="M-10,120 C170,257 430,257 610,127"/></g><path class="ct-acc" d="M-10,40 C170,222 430,222 610,32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 8" vector-effect="non-scaling-stroke"/><circle class="ct-dot" r="2.6" fill="currentColor"><animateMotion dur="16s" repeatCount="indefinite" path="M-10,40 C170,222 430,222 610,32" keyPoints="0;1;0" keyTimes="0;.5;1" calcMode="linear"/></circle></svg>
       <div>
         <h2>Подходит ли вам одномоментная имплантация?</h2>
-        <p class="lead">Ответьте на 4 коротких вопроса — врач посмотрит ответы и перезвонит с честным ответом. Дальше 3D-снимок и консультация с точной ценой. Решение — за вами, никакого давления.</p>
-        <div class="final-contacts">
-          <a href="tel:+78005501634">8 800 550-16-34 <span>— бесплатно по России</span></a>
-          <a href="tel:+79534057942">+7 953 405-79-42 <span>— мобильный</span></a>
-          <div><span>Набережные Челны, Набережночелнинский пр-т, 41, 2 этаж<br>Пн–Пт 8:00–19:00, Сб 8:00–14:00</span></div>
-        </div>
-        <div class="msgr">
-          <a href="https://wa.me/79534057942" target="_blank" rel="noopener" style="--c:#25D366"><i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.2z"/></svg></i>WhatsApp</a>
-          <a href="https://t.me/avedent_clinic" target="_blank" rel="noopener" style="--c:#229ED9"><i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.4 4.2 2.9 11.3c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.5c.3-1.3-.5-1.8-1.4-1.5zM9.4 14l8.5-7.4-6.5 8.4-.3 3-1.7-4z"/></svg></i>Telegram</a>
-          <a href="https://max.ru/u/f9LHodD0cOIe90G69rS9rvCxZsvL_yTMy5j144swTtDAnE0NnGtZ9OFBLC4" target="_blank" rel="noopener" style="--c:transparent"><i><img src="img/icons/max.webp" width="24" height="24" alt="" loading="lazy"></i>MAX</a>
-          <a href="https://vk.com/avedent_clinic" target="_blank" rel="noopener" style="--c:#0062D6"><i><b>VK</b></i>ВКонтакте</a>
-        </div>
+        <p class="lead">Ответьте на 4 вопроса в одно касание — врач посмотрит ответы, а администратор перезвонит и запишет на консультацию с 3D-снимком. Решение — за вами, никакого давления.</p>
+        <ol class="path"><li><b>Заявка</b><span>30 секунд</span></li><li><b>Звонок</b><span>за 15 минут в рабочее время</span></li><li><b>Консультация и 3D</b><span>точная цена, без обязательств</span></li></ol>
       </div>
       <div class="form quiz" id="formBox">
-        <div class="q-head"><span id="qLabel">Вопрос 1 из 4</span><button type="button" class="q-back" id="qBack" hidden>← Назад</button></div>
+        <div class="q-head"><span id="qLabel">Вопрос 1 из 4 · около 30 секунд</span><button type="button" class="q-back" id="qBack" hidden>← Назад</button></div>
         <div class="q-bar"><i id="qBar"></i></div>
         <form id="leadForm" novalidate>
           <fieldset class="q-step on" data-q="1">
@@ -1347,20 +1366,47 @@ function imgFallback(img){
             <label class="opt"><input type="radio" name="pay" value="Рассрочка"><span>В рассрочку до 12 месяцев</span></label>
             <label class="opt"><input type="radio" name="pay" value="Пока не знаю"><span>Пока не знаю</span></label>
           </fieldset>
+          <button type="button" class="q-skip" id="qSkip">Не хочу отвечать — просто перезвоните →</button>
           <fieldset class="q-step" data-q="5">
-            <legend>Почти готово!</legend>
+            <legend id="qTitle">Почти готово!</legend>
             <p class="sub" id="qResult">Врач посмотрит ваши ответы и перезвонит, чтобы рассказать, подходит ли вам одномоментная имплантация и сколько это будет стоить.</p>
-            <input type="text" name="name" placeholder="Ваше имя" autocomplete="name" maxlength="60" required>
-            <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" required>
+            <label class="fld"><span>Телефон</span><input type="tel" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" inputmode="tel" required></label>
+            <label class="fld"><span>Как к вам обращаться <i>— необязательно</i></span><input type="text" name="name" placeholder="Имя" autocomplete="given-name" maxlength="60"></label>
+            <div class="how" role="radiogroup" aria-label="Как удобнее связаться">
+              <span class="how-t">Как удобнее связаться</span>
+              <label><input type="radio" name="contact" value="Звонок" checked><span>Звонок</span></label>
+              <label><input type="radio" name="contact" value="WhatsApp"><span>WhatsApp</span></label>
+              <label><input type="radio" name="contact" value="Telegram"><span>Telegram</span></label>
+              <label><input type="radio" name="contact" value="MAX"><span>MAX</span></label>
+            </div>
             <input type="hidden" name="service" value="Одномоментная имплантация">
             <!-- антибот: поле-ловушка (люди его не видят), метки времени и токен сервера -->
             <div class="hp" aria-hidden="true"><label>Ваш сайт <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
             <input type="hidden" name="ts"><input type="hidden" name="tk"><input type="hidden" name="hm">
-            <button class="btn btn-primary" type="submit">Получить ответ врача</button>
+            <button class="btn btn-primary" type="submit" id="qSubmit">Получить ответ врача</button>
             <label class="agree"><input type="checkbox" name="agree" required> <span>Даю <a href="consent.html" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html" target="_blank" rel="noopener">политику конфиденциальности</a></span></label>
           </fieldset>
         </form>
-        <div class="ok"><h3>Спасибо!</h3><p class="sub" style="margin:8px 0 0">Администратор перезвонит в течение 15 минут в рабочее время и подберёт удобное время консультации.</p></div>
+        <div class="ok" role="status" aria-live="polite">
+          <div class="ok-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          <h3>Заявка принята</h3>
+          <p class="sub" id="okWhen">Администратор свяжется с вами в течение 15 минут и подберёт удобное время консультации.</p>
+          <ul class="ok-next"><li>Держите телефон рядом — ответим с номера клиники</li><li>На консультацию возьмите паспорт и прошлые снимки, если есть</li><li>3D-снимок сделаем в клинике — он входит в стоимость лечения</li></ul>
+          <a class="ok-tel" href="tel:+78005501634">Не хотите ждать? <span>8 800 550-16-34</span></a>
+        </div>
+      </div>
+      <div class="final-side">
+        <div class="final-contacts">
+          <a href="tel:+78005501634">8 800 550-16-34 <span>— бесплатно по России</span></a>
+          <a href="tel:+79534057942">+7 953 405-79-42 <span>— мобильный</span></a>
+          <div><span>Набережные Челны, Набережночелнинский пр-т, 41, 2 этаж<br>Пн–Пт 8:00–19:00, Сб 8:00–14:00</span></div>
+        </div>
+        <div class="msgr">
+          <a href="https://wa.me/79534057942" target="_blank" rel="noopener" style="--c:#25D366"><i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.2z"/></svg></i>WhatsApp</a>
+          <a href="https://t.me/avedent_clinic" target="_blank" rel="noopener" style="--c:#229ED9"><i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.4 4.2 2.9 11.3c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.4l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.5c.3-1.3-.5-1.8-1.4-1.5zM9.4 14l8.5-7.4-6.5 8.4-.3 3-1.7-4z"/></svg></i>Telegram</a>
+          <a href="https://max.ru/u/f9LHodD0cOIe90G69rS9rvCxZsvL_yTMy5j144swTtDAnE0NnGtZ9OFBLC4" target="_blank" rel="noopener" style="--c:transparent"><i><img src="img/icons/max.webp" width="24" height="24" alt="" loading="lazy"></i>MAX</a>
+          <a href="https://vk.com/avedent_clinic" target="_blank" rel="noopener" style="--c:#0062D6"><i><b>VK</b></i>ВКонтакте</a>
+        </div>
       </div>
     </div>
 
@@ -1425,7 +1471,7 @@ function imgFallback(img){
       <a href="tel:+79534057942" data-goal="fb_call"><b>+7 953 405-79-42</b><span>мобильный</span></a>
       <a href="tel:+78552319011" data-goal="fb_call"><b>8 8552 31-90-11</b><span>городской</span></a>
     </div>
-    <a class="btn btn-primary fb-cta" href="#form" data-goal="fb_form">Записаться онлайн</a>
+    <a class="btn btn-primary fb-cta" href="#form" data-flow="quick" data-goal="fb_form">Записаться онлайн</a>
   </div>
   <button type="button" class="fb-btn" id="fbBtn" aria-label="Связаться с клиникой" aria-expanded="false" aria-controls="fbPanel">
     <picture><source media="(prefers-reduced-motion: reduce)" srcset="img/icons/tooth-chat-static.webp"><img id="fbImg" src="img/icons/tooth-chat-static.webp" data-anim="img/icons/tooth-chat.webp" width="64" height="64" alt=""></picture>
@@ -1440,7 +1486,7 @@ function imgFallback(img){
 
 <div class="mbar" id="mbar">
   <a class="btn btn-ghost" href="tel:+78005501634">Позвонить</a>
-  <a class="btn btn-primary" href="#form" data-goal="cta_mobilebar">Записаться</a>
+  <a class="btn btn-primary" href="#form" data-flow="quick" data-goal="cta_mobilebar">Записаться</a>
 </div>
 
 <script type="application/ld+json">
@@ -1470,7 +1516,9 @@ var PRICE = 68000;
   function onScroll(){
     var y = window.scrollY;
     hdr.classList.toggle('scrolled', y > 10);
-    mbar.classList.toggle('show', y > 600);
+    var fbx = document.getElementById('formBox'), r = fbx ? fbx.getBoundingClientRect() : null;
+    var atForm = r && r.top < window.innerHeight - 80 && r.bottom > 120;     // у формы нижняя панель не нужна и не перекрывает кнопку
+    mbar.classList.toggle('show', y > 600 && !atForm);
   }
   window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
 
@@ -1638,6 +1686,25 @@ var PRICE = 68000;
     tel.value = m;
   });
 
+  tel.addEventListener('input', function(){ tel.classList.remove('err'); });
+  function showOk(){
+    var r = box.getBoundingClientRect(), off = (hdr ? hdr.offsetHeight : 70) + 16;
+    if (r.top < off || r.top > window.innerHeight * .5) window.scrollTo({top: r.top + window.scrollY - off, behavior: reduce ? 'auto' : 'smooth'});
+  }
+  function okWhen(){                                      // честно говорим, когда перезвоним (Пн–Пт 8–19, Сб 8–14, по Москве)
+    var now = new Date(Date.now() + (new Date().getTimezoneOffset() + 180) * 60000), d = now.getDay(), h = now.getHours() + now.getMinutes() / 60;
+    var open = (d >= 1 && d <= 5 && h >= 8 && h < 18.75) || (d === 6 && h >= 8 && h < 13.75);
+    var t;
+    if (open) t = 'Администратор свяжется с вами в течение 15 минут и подберёт удобное время консультации.';
+    else {
+      var next = (d >= 1 && d <= 5 && h < 8) || (d === 6 && h < 8) ? 'сегодня' : (d === 6 || d === 0 ? 'в понедельник' : 'завтра');
+      t = 'Сейчас клиника закрыта. Администратор свяжется с вами ' + next + ' с 8:00 и подберёт удобное время консультации.';
+    }
+    var c = form.querySelector('input[name=contact]:checked');
+    if (c && c.value !== 'Звонок') t = t.replace('свяжется с вами', 'напишет вам в ' + c.value);
+    document.getElementById('okWhen').textContent = t;
+  }
+
   /* quiz */
   var form = document.getElementById('leadForm'), box = document.getElementById('formBox'),
       qSteps = form.querySelectorAll('.q-step'), qBar = document.getElementById('qBar'),
@@ -1646,9 +1713,16 @@ var PRICE = 68000;
     qCur = n;
     qSteps.forEach(function(f){ f.classList.toggle('on', +f.getAttribute('data-q') === n); });
     qBar.style.width = (n * 20) + '%';
-    qLabel.textContent = n < 5 ? 'Вопрос ' + n + ' из 4' : 'Последний шаг';
+    qLabel.textContent = n < 5 ? 'Вопрос ' + n + ' из 4' + (n === 1 ? ' · около 30 секунд' : '') : (quick ? 'Запись на консультацию' : 'Последний шаг');
     qBack.hidden = n === 1;
-    if (n === 5){
+    box.classList.toggle('last', n === 5);
+    if (n === 5 && quick){
+      document.getElementById('qTitle').textContent = 'Оставьте телефон — перезвоним';
+      document.getElementById('qResult').textContent = 'Администратор расскажет про одномоментную имплантацию, ответит на вопросы и подберёт время консультации. Это бесплатно и ни к чему не обязывает.';
+      document.getElementById('qSubmit').textContent = 'Жду звонка';
+    } else if (n === 5){
+      document.getElementById('qTitle').textContent = 'Почти готово!';
+      document.getElementById('qSubmit').textContent = 'Получить ответ врача';
       var st = form.querySelector('input[name=state]:checked');
       document.getElementById('qResult').textContent = (st && st.value === 'Уже удалён')
         ? 'Если зуб уже удалён, вам подойдёт классическая имплантация — врач перезвонит, расскажет, как она пройдёт в вашем случае, и назовёт стоимость.'
@@ -1656,10 +1730,44 @@ var PRICE = 68000;
     }
     if (n === 2) goal('quiz_start');
   }
+  var quick = false;
+  function nextFrom(n){                                   // пропускаем вопросы, на которые уже ответили (например, «рассрочка» с кнопки)
+    var k = n + 1;
+    while (k < 5 && qSteps[k - 1].querySelector('input:checked')) k++;
+    return k;
+  }
   form.querySelectorAll('.q-step input[type=radio]').forEach(function(r){
-    r.addEventListener('click', function(){ var n = qCur; setTimeout(function(){ if (qCur === n) showQ(n + 1); }, 280); });
+    r.addEventListener('click', function(){ var n = qCur; setTimeout(function(){ if (qCur === n) showQ(nextFrom(n)); }, 280); });
   });
-  qBack.addEventListener('click', function(){ if (qCur > 1) showQ(qCur - 1); });
+  qBack.addEventListener('click', function(){
+    if (quick){ quick = false; showQ(1); return; }
+    var k = qCur - 1; while (k > 1 && qSteps[k - 1].getAttribute('data-pre')) k--;
+    if (k >= 1) showQ(k);
+  });
+  function goQuick(){ quick = true; showQ(5); goal('quiz_skip'); }
+  document.getElementById('qSkip').addEventListener('click', function(){ goQuick(); setTimeout(function(){ tel.focus(); }, 60); });
+
+  /* все кнопки «Записаться / Узнать / Рассрочка» ведут прямо к карточке заявки, с учётом намерения */
+  document.querySelectorAll('a[href="#form"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      if (box.classList.contains('sent')) { /* заявка уже отправлена — просто покажем блок */ }
+      else if (a.getAttribute('data-flow') === 'quick') goQuick();
+      else {
+        var pay = a.getAttribute('data-pay');
+        if (pay){ var r = form.querySelector('input[name=pay][value="' + pay + '"]'); if (r){ r.checked = true; qSteps[3].setAttribute('data-pre', '1'); } }
+        if (qCur === 5 && quick){ quick = false; showQ(1); }
+      }
+      var fbp = document.getElementById('fbPanel'), fbx = document.getElementById('fbClose'); if (fbp && !fbp.hidden && fbx) fbx.click();
+      var hdr = document.getElementById('hdr'), off = (hdr ? hdr.offsetHeight : 70) + 16;
+      var y = box.getBoundingClientRect().top + window.scrollY - off;
+      window.scrollTo({top: y, behavior: reduce ? 'auto' : 'smooth'});
+      setTimeout(function(){
+        box.classList.remove('flash'); void box.offsetWidth; box.classList.add('flash');
+        if (quick && window.innerWidth > 900) tel.focus({preventScroll:true});
+      }, reduce ? 0 : 650);
+    });
+  });
 
   /* антибот без капчи: живой человек двигает мышью/жмёт клавиши, проходит 4 вопроса и тратит на это время.
      Бот, который шлёт POST напрямую, не получит токен сервера (send.php?token), а бот, который заполняет все поля, попадёт в ловушку. */
@@ -1697,26 +1805,26 @@ var PRICE = 68000;
   form.addEventListener('submit', function(e){
     e.preventDefault();
     var name = form.name.value.trim(), phone = form.phone.value.replace(/\D/g, '');
-    if (!name){ form.name.focus(); return; }
-    if (phone.length !== 11){ form.phone.focus(); return; }
+    if (phone.length !== 11){ form.phone.classList.add('err'); form.phone.focus(); return; }
     if (!form.agree.checked){ form.agree.closest('.agree').classList.add('err'); form.agree.focus(); return; }
     if (looksLikeBot()){ box.classList.add('sent'); return; }   // боту показываем «успех», но ничего не отправляем
-    goal('lead');
+    goal('lead'); okWhen();
     var answers = ['tooth','state','when','pay'].map(function(k){
       var c = form.querySelector('input[name=' + k + ']:checked'); return c ? c.value : '—';
     });
     if (FORM_ENDPOINT){
       var btnS = form.querySelector('button[type=submit]'); btnS.disabled = true;
       ensureToken().then(function(){ return fetch(FORM_ENDPOINT, {method:'POST', body:new FormData(form), credentials:'same-origin'}); })
-        .then(function(r){ if (!r.ok) throw new Error(r.status); box.classList.add('sent'); })
+        .then(function(r){ if (!r.ok) throw new Error(r.status); box.classList.add('sent'); showOk(); })
         .catch(function(){ btnS.disabled = false; alert('Не получилось отправить. Позвоните нам: 8 800 550-16-34'); });
       return;
     } else {
       var txt = 'Здравствуйте! Хочу на консультацию по одномоментной имплантации.\n' +
         'Зуб: ' + answers[0] + '\nСостояние: ' + answers[1] + '\nКогда: ' + answers[2] + '\nОплата: ' + answers[3] +
-        '\n' + name + ', ' + form.phone.value;
+        '\nСвязь: ' + (form.querySelector('input[name=contact]:checked') || {}).value +
+        '\n' + (name || 'Без имени') + ', ' + form.phone.value;
       window.open('https://wa.me/' + WA_PHONE + '?text=' + encodeURIComponent(txt), '_blank', 'noopener');
-      box.classList.add('sent');
+      box.classList.add('sent'); showOk();
     }
   });
 
