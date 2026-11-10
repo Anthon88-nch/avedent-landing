@@ -24,6 +24,7 @@ const RATE_LIMIT      = 3;                                            // зая�
 const RATE_WINDOW     = 600;                                          // за сколько секунд
 /* ============================================ */
 
+date_default_timezone_set('Europe/Moscow');
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 header('X-Content-Type-Options: nosniff');
@@ -67,6 +68,11 @@ if (!$tk || !hash_equals(sign($tk), $hm)) fake_ok();                           /
 $age = $now - $tk;
 if ($age < 3 || $age > 7200) fake_ok();                                        // слишком быстро или протух
 
+/* --- защита от дублей: повторная отправка той же заявки (rid) не создаёт второе письмо --- */
+$rid = preg_replace('/[^a-z0-9]/', '', strtolower((string)($_POST['rid'] ?? '')));
+$ridFile = $rid !== '' ? $dir . '/rid_' . hash('sha256', $rid . SECRET) : '';
+if ($ridFile && is_file($ridFile) && filemtime($ridFile) > $now - 86400) out(200, ['ok' => true, 'dup' => true]);
+
 /* --- данные --- */
 function clean($v, $max) { $v = trim(preg_replace('/[\x00-\x1F\x7F<>]/u', ' ', (string)$v)); return mb_substr($v, 0, $max); }
 $name  = clean($_POST['name'] ?? '', 60);
@@ -78,8 +84,9 @@ if (empty($_POST['agree']))                                              out(422
 $phone = '+7' . substr($phone, 1);
 
 $f = [];
-foreach (['contact' => 'Как связаться', 'tooth' => 'Зуб', 'state' => 'Состояние', 'when' => 'Когда', 'pay' => 'Оплата', 'service' => 'Услуга'] as $k => $label) {
-    $f[$label] = clean($_POST[$k] ?? '—', 80);
+foreach (['source' => 'Откуда', 'contact' => 'Как связаться', 'situation' => 'Ситуация', 'interest' => 'Интересует', 'tooth' => 'Зуб', 'state' => 'Состояние', 'when' => 'Когда', 'pay' => 'Оплата', 'service' => 'Услуга'] as $k => $label) {
+    $v = clean($_POST[$k] ?? '', 120);
+    if ($v !== '') $f[$label] = $v;                                            // пустые поля в письмо не попадают
 }
 
 $text = "Новая заявка с лендинга\n\nИмя: $name\nТелефон: $phone\n";
@@ -104,4 +111,5 @@ if (TG_BOT_TOKEN && TG_CHAT_ID) {
     $sent = ($r !== false) || $sent;
 }
 
+if ($sent && $ridFile) @touch($ridFile);
 $sent ? out(200, ['ok' => true]) : out(502, ['ok' => false, 'error' => 'delivery']);

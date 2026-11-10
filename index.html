@@ -342,6 +342,93 @@ section{padding:110px 0}
 @media (max-width:980px){.path{gap:8px}.path li{padding:10px 12px;font-size:13px}.path b{font-size:14px}}
 @media (max-width:560px){.path{gap:6px;margin-bottom:6px}.path li{padding:9px 8px;text-align:center;font-size:12.5px}.path li::before{display:grid;margin:0 auto 4px;width:20px;height:20px;font-size:11px}.path b{font-size:13px}.path span{display:none}}
 
+/* ПОМОЩНИК ПО ИМПЛАНТАЦИИ — окно с двумя вопросами, объяснением и записью */
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+html.hp-open{overflow:hidden}
+.hp-dlg{border:0;padding:0;margin:auto;width:min(680px,calc(100vw - 32px));max-height:min(860px,calc(100dvh - 48px));border-radius:28px;background:var(--surface);color:var(--ink);box-shadow:0 30px 80px -20px rgba(8,16,48,.45);overflow:hidden}
+.hp-dlg::backdrop{background:rgba(8,14,40,.55);backdrop-filter:blur(3px)}
+.hp-dlg[open]{animation:hpIn .22s var(--ease)}
+@keyframes hpIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+.hp-box{display:flex;flex-direction:column;max-height:inherit;height:100%}
+.hp-top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:16px 18px 4px}
+.hp-name{font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hp-back,.hp-x{border:0;background:none;color:var(--accent);font:inherit;font-weight:700;font-size:15px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0 6px;border-radius:12px}
+.hp-back{justify-self:start}.hp-x{justify-self:end;width:44px;justify-content:center;color:var(--muted)}
+.hp-back:hover,.hp-x:hover{background:var(--sky)}
+.hp-back:focus-visible,.hp-x:focus-visible{outline:3px solid rgba(63,109,240,.45);outline-offset:1px}
+.hp-prog{padding:4px 28px 0;font-size:13px;font-weight:700;color:var(--muted)}
+.hp-bar{height:5px;border-radius:5px;background:var(--sky);margin-top:8px;overflow:hidden}
+.hp-bar i{display:block;height:100%;width:25%;background:var(--blue);border-radius:5px;transition:width .25s var(--ease)}
+.hp-body{flex:1;overflow:auto;padding:18px 28px 8px;overscroll-behavior:contain}
+.hp-dlg [hidden]{display:none!important}
+.hp-dlg .hp-back[hidden]{display:inline-flex!important;visibility:hidden}
+.hp-step{display:none;padding:0}
+.hp-step{position:relative}
+.hp-num{position:absolute;right:-6px;top:-18px;font-size:clamp(84px,14vw,128px);font-weight:800;line-height:1;letter-spacing:-.05em;color:var(--blue);opacity:.08;pointer-events:none;user-select:none;font-variant-numeric:tabular-nums}
+.hp-step .hp-h,.hp-step .hp-sub{position:relative;padding-right:64px}
+:root[data-theme="dark"] .hp-num{color:#9db4ff;opacity:.1}
+.hp-step.on{display:block;animation:hpStep .2s var(--ease)}
+@keyframes hpStep{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
+.hp-h{font-size:clamp(22px,3.2vw,28px);line-height:1.2;letter-spacing:-.015em;margin-bottom:8px;outline:none}
+.hp-sub{color:var(--muted);font-size:16px;line-height:1.5;margin-bottom:18px}
+.hp-c{text-align:center}
+.hp-cards{border:0;display:grid;gap:10px}
+.hp-card{display:block;cursor:pointer}
+.hp-card input{position:absolute;opacity:0;pointer-events:none}
+.hp-card>span{display:flex;flex-direction:column;justify-content:center;gap:2px;position:relative;min-height:60px;padding:14px 52px 14px 18px;border:2px solid var(--line);border-radius:18px;background:var(--bg);transition:border-color .18s,background .18s,box-shadow .18s}
+.hp-card b{font-size:16.5px;line-height:1.3}
+.hp-card small{font-size:14px;color:var(--muted)}
+.hp-card>span::after{content:"";position:absolute;right:18px;top:50%;width:20px;height:20px;margin-top:-10px;border-radius:50%;border:2px solid #b9c3e0;transition:border .18s,background .18s}
+.hp-card:hover>span{border-color:var(--sky-2);background:var(--surface)}
+.hp-card input:checked+span{border-color:var(--blue);background:var(--surface);box-shadow:0 6px 18px -10px rgba(37,65,160,.5)}
+.hp-card input:checked+span::after{border:6px solid var(--blue)}
+.hp-card input:focus-visible+span{outline:3px solid rgba(63,109,240,.45);outline-offset:2px}
+.hp-info{display:grid;gap:12px;margin:10px 0 14px}
+.hp-info .blk{background:var(--bg);border-radius:18px;padding:16px 18px;animation:hpStep .25s var(--ease)}
+.hp-info .blk b{display:block;font-size:15px;color:var(--accent);margin-bottom:4px}
+.hp-info .blk p{font-size:16px;line-height:1.55}
+.hp-info .blk p+p{margin-top:8px}
+.hp-info .blk a{color:var(--accent);font-weight:700}
+.hp-note{font-size:13.5px;line-height:1.5;color:var(--muted);border-left:3px solid var(--sky-2);padding-left:12px}
+.hp-foot{display:flex;gap:10px;padding:14px 28px 22px;border-top:1px solid var(--line);background:var(--surface)}
+.hp-foot .btn{flex:1;min-height:52px;padding:14px 18px;font-size:16px}
+.hp-foot .btn[disabled]{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.hp-foot .btn.loading{pointer-events:none;opacity:.8}
+.hp-foot .btn.loading::after{content:"";width:16px;height:16px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:hpSpin .7s linear infinite}
+@keyframes hpSpin{to{transform:rotate(360deg)}}
+.hp-foot.single .hp-alt{display:none}
+#hpForm .fld>span{display:block;font-size:13px;font-weight:700;color:var(--muted);margin:0 0 6px 2px}
+#hpForm .fld i{font-style:normal;font-weight:500}
+#hpForm input[type=text],#hpForm input[type=tel]{width:100%;min-height:52px;border:2px solid var(--line);border-radius:14px;padding:12px 16px;font-size:17px;margin-bottom:12px;background:var(--bg);color:var(--ink);font-family:inherit}
+#hpForm input:focus{outline:none;border-color:var(--blue);background:var(--surface)}
+#hpForm input.err{border-color:#d23c4f}
+.hp-err-t{color:#d23c4f;font-size:13.5px;margin:-6px 0 10px 2px}
+#hpForm .agree{display:flex;gap:10px;font-size:13px;color:var(--muted);line-height:1.45;margin-top:4px}
+#hpForm .agree input{margin-top:2px;flex:none;width:20px;height:20px;accent-color:var(--blue)}
+#hpForm .agree a{color:inherit;text-decoration:underline}
+#hpForm .agree.err{color:#d23c4f}
+.hp-alert{margin-top:14px;padding:12px 14px;border-radius:14px;background:#fdecee;color:#9b2433;font-size:14.5px;line-height:1.45}
+.hp-alert a{color:inherit;font-weight:800}
+:root[data-theme="dark"] .hp-alert{background:#3a1520;color:#ffb3bd}
+.hp-step[data-s="5"]{padding-top:18px}
+.hp-step[data-s="5"] .ok-tel{display:block;margin:6px 0 10px}
+/* блок-вход на странице */
+.helper-cta{display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;padding:28px 32px}
+.helper-cta .hc-ic{width:56px;height:56px;border-radius:18px;background:var(--sky);color:var(--blue);display:grid;place-items:center}
+.helper-cta h2{font-size:clamp(22px,2.4vw,30px);margin-bottom:6px}
+.helper-cta p{color:var(--muted)}
+@media (max-width:760px){.helper-cta{grid-template-columns:1fr;gap:14px;padding:24px 20px}.helper-cta .btn{width:100%}}
+@media (max-width:600px){
+  .hp-dlg{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;border-radius:0;margin:0}
+  .hp-top{padding:max(10px,env(safe-area-inset-top)) 10px 2px}
+  .hp-prog{padding:2px 18px 0}.hp-body{padding:16px 18px 8px}
+  .hp-name{font-size:11.5px;letter-spacing:.04em}.hp-top{grid-template-columns:auto 1fr auto}.hp-back{min-width:44px}
+  .hp-foot{padding:12px 18px max(14px,env(safe-area-inset-bottom));flex-direction:column-reverse;gap:8px}
+  .hp-foot .hp-alt{min-height:44px;box-shadow:none;background:none;padding:8px}
+  .hp-card>span{padding:13px 48px 13px 16px}
+}
+@media (prefers-reduced-motion:reduce){.hp-dlg[open],.hp-step.on,.hp-info .blk{animation:none}.hp-bar i{transition:none}}
+
 /* BAND */
 .band{position:relative;padding:0;min-height:620px;display:flex;align-items:flex-end;margin-bottom:-48px;overflow:hidden;background:var(--navy)}
 .band-img{position:absolute;inset:0}
@@ -803,7 +890,7 @@ function imgFallback(img){
         <p class="lead">Удаляем больной зуб и сразу ставим имплант — без полугода с «дыркой» во рту и без второй операции. Имплант, абатмент, коронка и 3D-снимок уже в цене.</p>
         <div class="h-docline"><img src="img/garaev-480.webp" alt="" width="56" height="56"><div><b>Гараев Альберт Радикович</b><span>Главный врач, хирург-имплантолог</span></div></div>
         <div class="h-cta">
-          <a class="btn btn-primary" href="#form" data-goal="cta_hero">Узнать, подходит ли мне
+          <a class="btn btn-primary" href="#form" data-helper data-goal="cta_hero">Узнать, подходит ли мне
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           <a class="btn btn-ghost" href="#price">Рассчитать рассрочку</a>
         </div>
@@ -917,12 +1004,23 @@ function imgFallback(img){
       <div class="card card-navy inc-price rv">
         <div><span class="eyebrow" style="background:rgba(255,255,255,.12);color:#cfdbff">Что входит в цену</span>
         <div class="big">68 000 ₽</div><p style="opacity:.8;margin-top:8px">за один зуб — от удаления до постоянной коронки</p></div>
-        <a class="btn btn-white" href="#form" data-goal="cta_included">Узнать, подходит ли мне</a>
+        <a class="btn btn-white" href="#form" data-helper data-goal="cta_included">Узнать, подходит ли мне</a>
       </div>
       <div class="card inc-item rv"><span class="tag">01 — корень</span><h3>Имплант</h3><p>Титановый винт, который заменяет корень зуба. Систему врач подбирает под вашу ситуацию.</p></div>
       <div class="card inc-item rv"><span class="tag">02 — опора</span><h3>Абатмент</h3><p>Переходник между имплантом и коронкой. От него зависит, насколько надёжно держится зуб.</p></div>
       <div class="card inc-item rv"><span class="tag">03 — то, что видно</span><h3>Коронка</h3><p>Постоянная коронка в цвет ваших зубов. Жуёт и выглядит как свой зуб.</p></div>
       <div class="card inc-item gift rv"><span class="tag">подарок</span><h3>3D-снимок (КТ)</h3><p>Объёмный снимок челюсти, по которому врач планирует операцию с точностью до миллиметра.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Вход в помощника по имплантации ===== -->
+<section class="helper-sec" aria-labelledby="hcTitle" style="padding-top:0;padding-bottom:40px">
+  <div class="wrap">
+    <div class="card helper-cta rv">
+      <div class="hc-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M9.3 9.2a2.8 2.8 0 0 1 5.4 1c0 1.9-2.7 2.5-2.7 4"/><path d="M12 17.4h.01"/></svg></div>
+      <div><h2 id="hcTitle">Не уверены, подойдёт ли вам имплантация?</h2><p>Ответьте на два коротких вопроса и узнайте, что стоит обсудить с врачом. Это ни к чему не обязывает — записаться можно на любом шаге или не записываться вовсе.</p></div>
+      <a class="btn btn-primary" href="#form" data-helper data-goal="helper_section">Разобраться в вариантах</a>
     </div>
   </div>
 </section>
@@ -1455,6 +1553,87 @@ function imgFallback(img){
   </div>
 </footer>
 
+<!-- ===== Помощник по имплантации (окно) ===== -->
+<dialog class="hp-dlg" id="helper" aria-labelledby="hpTitle">
+  <div class="hp-box">
+    <div class="hp-top">
+      <button type="button" class="hp-back" id="hpBack" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Назад</button>
+      <span class="hp-name">Помощник по имплантации</span>
+      <button type="button" class="hp-x" id="hpClose" aria-label="Закрыть помощника"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="hp-prog" id="hpProg"><span id="hpStepTxt">Шаг 1 из 4</span><div class="hp-bar" aria-hidden="true"><i id="hpBar"></i></div></div>
+
+    <div class="hp-body" id="hpBody">
+      <!-- шаг 1 -->
+      <section class="hp-step on" data-s="1" aria-labelledby="hpQ1">
+        <span class="hp-num" aria-hidden="true">01</span>
+        <h2 class="hp-h" id="hpQ1" tabindex="-1">Расскажите, какая ситуация у вас сейчас</h2>
+        <p class="hp-sub">Это поможет показать информацию, которая может быть вам полезна.</p>
+        <fieldset class="hp-cards"><legend class="sr">Ваша ситуация</legend>
+          <label class="hp-card"><input type="radio" name="hpSit" value="remove"><span><b>Зуб нужно удалить</b><small>врач уже сказал или зуб сильно разрушен</small></span></label>
+          <label class="hp-card"><input type="radio" name="hpSit" value="missing"><span><b>Зуб уже удалён или отсутствует</b><small>недавно или давно</small></span></label>
+          <label class="hp-card"><input type="radio" name="hpSit" value="several"><span><b>Отсутствует несколько зубов</b><small>рядом или в разных местах</small></span></label>
+          <label class="hp-card"><input type="radio" name="hpSit" value="unsure"><span><b>Пока не знаю, какой метод мне подходит</b><small>хочу разобраться в вариантах</small></span></label>
+        </fieldset>
+      </section>
+      <!-- шаг 2 -->
+      <section class="hp-step" data-s="2" aria-labelledby="hpQ2">
+        <span class="hp-num" aria-hidden="true">02</span>
+        <h2 class="hp-h" id="hpQ2" tabindex="-1">Что вы хотите узнать в&nbsp;первую очередь?</h2>
+        <p class="hp-sub">Выберите одну тему — остальные ответы есть в разделе «Вопросы».</p>
+        <fieldset class="hp-cards"><legend class="sr">Главный вопрос</legend>
+          <label class="hp-card"><input type="radio" name="hpInt" value="fit"><span><b>Подходит ли мне одномоментная имплантация?</b></span></label>
+          <label class="hp-card"><input type="radio" name="hpInt" value="price"><span><b>Сколько может стоить лечение?</b></span></label>
+          <label class="hp-card"><input type="radio" name="hpInt" value="pain"><span><b>Как проходит операция и обезболивание?</b></span></label>
+          <label class="hp-card"><input type="radio" name="hpInt" value="recovery"><span><b>Сколько времени занимает восстановление?</b></span></label>
+        </fieldset>
+      </section>
+      <!-- шаг 3: объяснение -->
+      <section class="hp-step" data-s="3" aria-labelledby="hpQ3">
+        <span class="hp-num" aria-hidden="true">03</span>
+        <h2 class="hp-h" id="hpQ3" tabindex="-1">Что важно знать в&nbsp;вашей ситуации</h2>
+        <div class="hp-info" id="hpInfo" aria-live="polite"></div>
+        <p class="hp-note">Это общая информация, а&nbsp;не&nbsp;рекомендация лечения. Подходящий метод врач определяет после осмотра и&nbsp;3D-диагностики. Имеются противопоказания.</p>
+      </section>
+      <!-- шаг 4: контакты -->
+      <section class="hp-step" data-s="4" aria-labelledby="hpQ4">
+        <span class="hp-num" aria-hidden="true">04</span>
+        <h2 class="hp-h" id="hpQ4" tabindex="-1">Запишитесь на&nbsp;консультацию</h2>
+        <p class="hp-sub">Оставьте контакты, и&nbsp;администратор свяжется с&nbsp;вами, чтобы согласовать время записи.</p>
+        <form id="hpForm" novalidate>
+          <label class="fld"><span>Телефон</span><input type="tel" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" inputmode="tel" required aria-describedby="hpPhoneErr"></label>
+          <p class="hp-err-t" id="hpPhoneErr" hidden>Проверьте номер: нужно 10 цифр после +7</p>
+          <label class="fld"><span>Имя <i>— необязательно</i></span><input type="text" name="name" placeholder="Как к вам обращаться" autocomplete="given-name" maxlength="60"></label>
+          <div class="how" role="radiogroup" aria-label="Как удобнее связаться">
+            <span class="how-t">Как удобнее связаться</span>
+            <label><input type="radio" name="contact" value="Звонок" checked><span>Звонок</span></label>
+            <label><input type="radio" name="contact" value="WhatsApp"><span>WhatsApp</span></label>
+            <label><input type="radio" name="contact" value="Telegram"><span>Telegram</span></label>
+            <label><input type="radio" name="contact" value="MAX"><span>MAX</span></label>
+          </div>
+          <input type="hidden" name="service" value="Одномоментная имплантация">
+          <input type="hidden" name="source"><input type="hidden" name="situation"><input type="hidden" name="interest"><input type="hidden" name="rid">
+          <div class="hp" aria-hidden="true"><label>Ваш сайт <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+          <label class="agree"><input type="checkbox" name="agree" required> <span>Даю <a href="consent.html" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html" target="_blank" rel="noopener">политику конфиденциальности</a></span></label>
+          <div class="hp-alert" id="hpAlert" role="alert" hidden></div>
+        </form>
+      </section>
+      <!-- шаг 5: итог -->
+      <section class="hp-step" data-s="5" aria-labelledby="hpQ5">
+        <div class="ok-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <h2 class="hp-h hp-c" id="hpQ5" tabindex="-1">Спасибо! Ваша заявка получена</h2>
+        <p class="hp-sub hp-c" id="hpDone">Администратор свяжется с вами по указанному контакту.</p>
+        <a class="ok-tel hp-c" href="tel:+78005501634">Не хотите ждать? <span>8 800 550-16-34</span></a>
+      </section>
+    </div>
+
+    <div class="hp-foot" id="hpFoot">
+      <button type="button" class="btn btn-ghost hp-alt" id="hpAlt">Сразу записаться</button>
+      <button type="button" class="btn btn-primary hp-next" id="hpNext" disabled>Далее</button>
+    </div>
+  </div>
+</dialog>
+
 <!-- ===== Виджет связи ===== -->
 <div class="fb" id="fb">
   <div class="fb-panel" id="fbPanel" role="dialog" aria-label="Связаться с клиникой" hidden>
@@ -1665,15 +1844,14 @@ var PRICE = 68000;
   calc();
 
   /* goals for Yandex Metrika */
-  function goal(name){ if (YM_ID && window.ym) window.ym(YM_ID, 'reachGoal', name); }
+  function goal(name, params){ if (YM_ID && window.ym) window.ym(YM_ID, 'reachGoal', name, params || {}); }   // только обезличенные события: без ответов, имени и телефона
   document.querySelectorAll('[data-goal]').forEach(function(a){
     a.addEventListener('click', function(){ goal(a.getAttribute('data-goal')); });
   });
   document.querySelectorAll('a[href^="tel:"]').forEach(function(a){ a.addEventListener('click', function(){ goal('phone_click'); }); });
 
   /* phone mask */
-  var tel = document.querySelector('#leadForm input[name=phone]');
-  tel.addEventListener('input', function(){
+  function phoneMask(tel){ tel.addEventListener('input', function(){
     var d = tel.value.replace(/\D/g, '');
     if (d[0] === '8') d = '7' + d.slice(1);
     if (d[0] !== '7') d = '7' + d;
@@ -1684,14 +1862,16 @@ var PRICE = 68000;
     if (d.length >= 7) m += '-' + d.slice(7, 9);
     if (d.length >= 9) m += '-' + d.slice(9, 11);
     tel.value = m;
-  });
+  }); }
+  var tel = document.querySelector('#leadForm input[name=phone]'); phoneMask(tel);
 
   tel.addEventListener('input', function(){ tel.classList.remove('err'); });
   function showOk(){
     var r = box.getBoundingClientRect(), off = (hdr ? hdr.offsetHeight : 70) + 16;
     if (r.top < off || r.top > window.innerHeight * .5) window.scrollTo({top: r.top + window.scrollY - off, behavior: reduce ? 'auto' : 'smooth'});
   }
-  function okWhen(){                                      // честно говорим, когда перезвоним (Пн–Пт 8–19, Сб 8–14, по Москве)
+  function okWhen(){ var c = form.querySelector('input[name=contact]:checked'); document.getElementById('okWhen').textContent = callbackText(c ? c.value : 'Звонок'); }
+  function callbackText(contact){                          // честно говорим, когда свяжемся (Пн–Пт 8–19, Сб 8–14, по Москве)
     var now = new Date(Date.now() + (new Date().getTimezoneOffset() + 180) * 60000), d = now.getDay(), h = now.getHours() + now.getMinutes() / 60;
     var open = (d >= 1 && d <= 5 && h >= 8 && h < 18.75) || (d === 6 && h >= 8 && h < 13.75);
     var t;
@@ -1700,9 +1880,8 @@ var PRICE = 68000;
       var next = (d >= 1 && d <= 5 && h < 8) || (d === 6 && h < 8) ? 'сегодня' : (d === 6 || d === 0 ? 'в понедельник' : 'завтра');
       t = 'Сейчас клиника закрыта. Администратор свяжется с вами ' + next + ' с 8:00 и подберёт удобное время консультации.';
     }
-    var c = form.querySelector('input[name=contact]:checked');
-    if (c && c.value !== 'Звонок') t = t.replace('свяжется с вами', 'напишет вам в ' + c.value);
-    document.getElementById('okWhen').textContent = t;
+    if (contact && contact !== 'Звонок') t = t.replace('свяжется с вами', 'напишет вам в ' + contact);
+    return t;
   }
 
   /* quiz */
@@ -1750,6 +1929,7 @@ var PRICE = 68000;
   /* все кнопки «Записаться / Узнать / Рассрочка» ведут прямо к карточке заявки, с учётом намерения */
   document.querySelectorAll('a[href="#form"]').forEach(function(a){
     a.addEventListener('click', function(e){
+      if (window.avedentHelper && (a.hasAttribute('data-helper') || a.getAttribute('data-flow') === 'quick')) return;   // это откроет помощник
       e.preventDefault();
       if (box.classList.contains('sent')) { /* заявка уже отправлена — просто покажем блок */ }
       else if (a.getAttribute('data-flow') === 'quick') goQuick();
@@ -1793,12 +1973,19 @@ var PRICE = 68000;
       return new Promise(function(res){ setTimeout(res, Math.max(0, Math.min(wait, 3200))); });
     });
   }
-  function looksLikeBot(){
-    if (form.website.value) return true;                 // заполнено поле-ловушка
+  function looksLikeBot(f){
+    if ((f || form).website.value) return true;                 // заполнено поле-ловушка
     if (Date.now() - tStart < 5000) return true;          // квиз из 4 вопросов быстрее 5 секунд не пройти
     if (human < 3) return true;                           // не было ни кликов, ни нажатий
     if (navigator.webdriver) return true;                 // headless-браузер
     return false;
+  }
+
+  function sendLead(fd){                                   // общая отправка для формы внизу и помощника: один обработчик, один токен
+    return ensureToken().then(function(){
+      fd.set('tk', form.tk.value); fd.set('hm', form.hm.value); fd.set('ts', form.ts.value);
+      return fetch(FORM_ENDPOINT, {method:'POST', body:fd, credentials:'same-origin'});
+    }).then(function(r){ if (!r.ok) throw new Error(r.status); return r; });
   }
 
   form.agree.addEventListener('change', function(){ form.agree.closest('.agree').classList.remove('err'); });
@@ -1807,15 +1994,15 @@ var PRICE = 68000;
     var name = form.name.value.trim(), phone = form.phone.value.replace(/\D/g, '');
     if (phone.length !== 11){ form.phone.classList.add('err'); form.phone.focus(); return; }
     if (!form.agree.checked){ form.agree.closest('.agree').classList.add('err'); form.agree.focus(); return; }
-    if (looksLikeBot()){ box.classList.add('sent'); return; }   // боту показываем «успех», но ничего не отправляем
+    if (looksLikeBot(form)){ box.classList.add('sent'); return; }   // боту показываем «успех», но ничего не отправляем
     goal('lead'); okWhen();
     var answers = ['tooth','state','when','pay'].map(function(k){
       var c = form.querySelector('input[name=' + k + ']:checked'); return c ? c.value : '—';
     });
     if (FORM_ENDPOINT){
       var btnS = form.querySelector('button[type=submit]'); btnS.disabled = true;
-      ensureToken().then(function(){ return fetch(FORM_ENDPOINT, {method:'POST', body:new FormData(form), credentials:'same-origin'}); })
-        .then(function(r){ if (!r.ok) throw new Error(r.status); box.classList.add('sent'); showOk(); })
+      sendLead(new FormData(form))
+        .then(function(){ btnS.disabled = false; box.classList.add('sent'); showOk(); })
         .catch(function(){ btnS.disabled = false; alert('Не получилось отправить. Позвоните нам: 8 800 550-16-34'); });
       return;
     } else {
@@ -1824,9 +2011,175 @@ var PRICE = 68000;
         '\nСвязь: ' + (form.querySelector('input[name=contact]:checked') || {}).value +
         '\n' + (name || 'Без имени') + ', ' + form.phone.value;
       window.open('https://wa.me/' + WA_PHONE + '?text=' + encodeURIComponent(txt), '_blank', 'noopener');
+      box.querySelector('.ok h3').textContent = 'Осталось отправить сообщение';
+      document.getElementById('okWhen').textContent = 'Мы открыли WhatsApp с готовым сообщением. Отправьте его — администратор ответит в рабочее время.';
       box.classList.add('sent'); showOk();
     }
   });
+
+  /* ===== Помощник по имплантации ===== */
+  (function(){
+    var dlg = document.getElementById('helper'); if (!dlg || !dlg.showModal) return;
+    var steps = dlg.querySelectorAll('.hp-step'), bar = document.getElementById('hpBar'), stepTxt = document.getElementById('hpStepTxt'),
+        prog = document.getElementById('hpProg'), back = document.getElementById('hpBack'), next = document.getElementById('hpNext'),
+        alt = document.getElementById('hpAlt'), foot = document.getElementById('hpFoot'), body = document.getElementById('hpBody'),
+        f = document.getElementById('hpForm'), alertBox = document.getElementById('hpAlert'), phoneErr = document.getElementById('hpPhoneErr');
+    var cur = 1, route = 'quiz', opener = null, done = false, sending = false;
+    phoneMask(f.phone);
+
+    var SIT = {
+      remove: 'В некоторых случаях имплант можно установить сразу после удаления зуба — в тот же визит. Возможность такого лечения врач определяет после осмотра и 3D-диагностики: важны состояние кости и отсутствие острого воспаления.',
+      missing: 'Врач оценит состояние кости и десны и предложит подходящие способы восстановления зуба. Одномоментная имплантация — это установка импланта сразу после удаления, поэтому к вашей ситуации она уже не относится: обычно речь идёт о классической имплантации.',
+      several: 'Для восстановления нескольких зубов существуют разные методы: отдельные импланты, конструкции с опорой на импланты и другие. План лечения зависит от клинической ситуации и составляется после диагностики.',
+      unsure: 'Необязательно самостоятельно выбирать метод имплантации. На консультации врач посмотрит 3D-снимок, объяснит возможные варианты и этапы лечения, а решение останется за вами.'
+    };
+    function interestText(i, s){
+      if (i === 'fit') return s === 'missing'
+        ? ['Подходит ли вам имплантация', 'Это врач оценивает по 3D-снимку: объём и плотность кости, состояние десны, общее здоровье. Если кости недостаточно, иногда сначала её восстанавливают — врач расскажет, нужно ли это в вашем случае.']
+        : ['Когда рассматривают одномоментную имплантацию', 'Обычно — если после удаления остаётся достаточно костной ткани, нет острого гнойного воспаления и общее здоровье позволяет провести операцию. Иногда безопаснее сначала дать лунке зажить: врач объяснит, какой вариант надёжнее именно для вас.'];
+      if (i === 'price') return ['Сколько может стоить лечение', (s === 'several' ? 'Стоимость зависит от количества имплантов и выбранной конструкции. ' : '') +
+        'Для одного зуба на сайте указан пакет «под ключ» — 68 000 ₽: имплант, абатмент, постоянная коронка и 3D-снимок. Итог зависит от клинической ситуации — например, может понадобиться костная пластика. Точную сумму врач назовёт после диагностики и зафиксирует в плане лечения. Есть рассрочка до 12 месяцев.'];
+      if (i === 'pain') return ['Как проходит операция', 'Операцию проводят под местной анестезией: болевые ощущения блокируются, обычно чувствуется только давление. Перед этим врач по 3D-снимку планирует положение импланта. Установка одного импланта в среднем занимает около часа.'];
+      return ['Сколько длится восстановление', 'Первые несколько дней возможны отёк и чувствительность — врач даст рекомендации по уходу и при необходимости по обезболиванию. Имплант срастается с костью в среднем 3–4 месяца, после этого устанавливают постоянную коронку. Временную коронку в день операции ставят не всегда — только если это позволяет клиническая ситуация.'];
+    }
+    function val(n){ var c = dlg.querySelector('input[name=' + n + ']:checked'); return c ? c.value : ''; }
+    function label(n){ var c = dlg.querySelector('input[name=' + n + ']:checked'); return c ? c.parentNode.querySelector('b').textContent : ''; }
+    function esc(t){ var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+    function renderInfo(){
+      var s = val('hpSit'), it = interestText(val('hpInt'), s);
+      document.getElementById('hpInfo').innerHTML =
+        '<div class="blk"><b>Ваша ситуация: ' + esc(label('hpSit').toLowerCase()) + '</b><p>' + esc(SIT[s] || SIT.unsure) + '</p></div>' +
+        '<div class="blk"><b>' + esc(it[0]) + '</b><p>' + esc(it[1]) + '</p></div>' +
+        '<div class="blk"><b>Другие вопросы</b><p>Как проходит лечение по шагам и ответы на частые вопросы — <a href="#steps" data-hp-go>в этапах лечения</a> и <a href="#faq" data-hp-go>в разделе «Вопросы»</a>.</p></div>';
+    }
+
+    function show(n, focus){
+      cur = n;
+      steps.forEach(function(s){ s.classList.toggle('on', +s.getAttribute('data-s') === n); });
+      var quiz = route === 'quiz';
+      prog.hidden = !quiz || n === 5;
+      if (quiz){ stepTxt.textContent = 'Шаг ' + n + ' из 4'; bar.style.width = (n * 25) + '%'; }
+      back.hidden = n === 1 || n === 5 || (!quiz && n === 4);
+      foot.classList.toggle('single', n >= 4);
+      alt.textContent = n === 3 ? 'Вернуться к вопросам' : 'Сразу записаться';
+      next.classList.remove('loading');
+      if (n === 1){ next.textContent = 'Далее'; next.disabled = !val('hpSit'); }
+      if (n === 2){ next.textContent = 'Показать ответ'; next.disabled = !val('hpInt'); }
+      if (n === 3){ renderInfo(); next.textContent = 'Записаться на консультацию'; next.disabled = false; }
+      if (n === 4){
+        next.textContent = sending ? 'Отправляем…' : 'Отправить заявку'; next.disabled = sending;
+        if (!f.rid.value) f.rid.value = Math.random().toString(36).slice(2) + Date.now().toString(36);
+        goal('consultation_form_open', {route: route});
+      }
+      if (n === 5){ next.textContent = 'Вернуться на сайт'; next.disabled = false; }
+      body.scrollTop = 0;
+      if (quiz && n <= 4) goal('quiz_step_view', {step: n});
+      if (focus !== false){ var h = steps[n - 1].querySelector('.hp-h'); if (h) h.focus({preventScroll:true}); }
+    }
+
+    function open(r, from){
+      opener = from || document.activeElement;
+      if (done){ done = false; f.reset(); f.rid.value = ''; dlg.querySelectorAll('.hp-cards input').forEach(function(i){ i.checked = false; }); }
+      route = r; alertBox.hidden = true;
+      dlg.showModal(); document.documentElement.classList.add('hp-open');
+      if (r === 'direct') show(4); else show(cur <= 3 ? cur : (val('hpInt') ? 3 : 1));
+      goal(r === 'quiz' ? 'quiz_open' : 'consultation_form_open', {route: r});
+      getToken();
+    }
+    function close(){
+      if (!dlg.open) return;
+      if (!done && route === 'quiz') goal('quiz_abandon', {step: cur});
+      dlg.close();
+    }
+    dlg.addEventListener('close', function(){
+      document.documentElement.classList.remove('hp-open');
+      if (opener && opener.focus) opener.focus({preventScroll:true});
+    });
+    dlg.addEventListener('cancel', function(e){ e.preventDefault(); close(); });         // Escape
+    dlg.addEventListener('click', function(e){ if (e.target === dlg) close(); });         // клик по затемнению
+    document.getElementById('hpClose').addEventListener('click', close);
+    dlg.addEventListener('click', function(e){
+      var a = e.target.closest('[data-hp-go]'); if (!a) return;
+      e.preventDefault(); close();
+      var t = document.querySelector(a.getAttribute('href'));
+      if (t) window.scrollTo({top: t.getBoundingClientRect().top + window.scrollY - 80, behavior: reduce ? 'auto' : 'smooth'});
+    });
+
+    // радиокарточки: стрелки на клавиатуре только меняют выбор, касание или клик — выбирает и ведёт дальше
+    dlg.querySelectorAll('.hp-cards input').forEach(function(i){
+      i.addEventListener('change', function(){ next.disabled = false; });
+      i.closest('label').addEventListener('click', function(e){
+        if (e.detail === 0) return;
+        var n = cur; setTimeout(function(){ if (cur === n && n < 3){ goal('quiz_step_next', {step: n}); show(n + 1); } }, 220);
+      });
+    });
+    back.addEventListener('click', function(){ goal('quiz_back', {step: cur}); show(cur - 1); });
+    alt.addEventListener('click', function(){
+      if (cur === 3){ show(1); return; }
+      route = 'direct'; show(4);
+    });
+    next.addEventListener('click', function(){
+      if (cur === 1 || cur === 2){ goal('quiz_step_next', {step: cur}); show(cur + 1); return; }
+      if (cur === 3){ goal('quiz_completed'); show(4); return; }
+      if (cur === 4){ submit(); return; }
+      close();
+    });
+    f.addEventListener('submit', function(e){ e.preventDefault(); submit(); });
+    f.phone.addEventListener('input', function(){ f.phone.classList.remove('err'); phoneErr.hidden = true; });
+    f.agree.addEventListener('change', function(){ f.agree.closest('.agree').classList.remove('err'); });
+    f.addEventListener('focusin', function(e){                                    // поле не прячется под экранной клавиатурой
+      if (window.innerWidth <= 600) setTimeout(function(){ e.target.scrollIntoView({block:'center', behavior:'auto'}); }, 300);
+    });
+
+    function submit(){
+      if (sending) return;
+      var phone = f.phone.value.replace(/\D/g, '');
+      if (phone.length !== 11){ f.phone.classList.add('err'); phoneErr.hidden = false; f.phone.focus(); return; }
+      if (!f.agree.checked){ f.agree.closest('.agree').classList.add('err'); f.agree.focus(); return; }
+      alertBox.hidden = true;
+      f.source.value = route === 'quiz' ? 'Помощник по имплантации' : 'Прямая запись';
+      f.situation.value = route === 'quiz' ? label('hpSit') : '';
+      f.interest.value = route === 'quiz' ? label('hpInt') : '';
+      goal('consultation_form_submit', {route: route});
+      if (looksLikeBot(f)){ finish(true); return; }
+      if (!FORM_ENDPOINT){                                                  // GitHub Pages: обработчика нет — честно отправляем через WhatsApp
+        var txt = 'Здравствуйте! Хочу записаться на консультацию по имплантации.' +
+          (f.situation.value ? '\nСитуация: ' + f.situation.value + '\nИнтересует: ' + f.interest.value : '') +
+          '\nСвязь: ' + val('contact') + '\n' + (f.name.value.trim() || 'Без имени') + ', ' + f.phone.value;
+        window.open('https://wa.me/' + WA_PHONE + '?text=' + encodeURIComponent(txt), '_blank', 'noopener');
+        finish(false); return;
+      }
+      sending = true; next.disabled = true; next.classList.add('loading'); next.textContent = 'Отправляем…';
+      sendLead(new FormData(f)).then(function(){ sending = false; goal('consultation_form_success', {route: route}); finish(true); })
+        .catch(function(){
+          sending = false; next.disabled = false; next.classList.remove('loading'); next.textContent = 'Отправить ещё раз';
+          goal('consultation_form_error', {route: route});
+          alertBox.innerHTML = 'Не получилось отправить заявку — возможно, пропал интернет. Ваши данные сохранены: нажмите «Отправить ещё раз» или позвоните нам: <a href="tel:+78005501634">8 800 550-16-34</a>.';
+          alertBox.hidden = false; alertBox.scrollIntoView({block:'nearest'});
+        });
+    }
+    function finish(viaServer){
+      done = true;
+      document.getElementById('hpQ5').textContent = viaServer ? 'Спасибо! Ваша заявка получена' : 'Осталось отправить сообщение';
+      document.getElementById('hpDone').textContent = viaServer
+        ? callbackText(val('contact')).replace(' и подберёт удобное время консультации', ' по указанному контакту и согласует время записи')
+        : 'Мы открыли WhatsApp с готовым сообщением. Отправьте его — администратор ответит в рабочее время: Пн–Пт 8:00–19:00, Сб 8:00–14:00.';
+      show(5);
+    }
+
+    // входы: кнопки с data-helper открывают помощника, «Записаться» — сразу запись
+    document.querySelectorAll('[data-helper]').forEach(function(a){
+      a.addEventListener('click', function(e){ e.preventDefault(); e.stopImmediatePropagation(); open('quiz', a); });
+    });
+    document.querySelectorAll('a[href="#form"][data-flow="quick"]').forEach(function(a){
+      a.addEventListener('click', function(e){
+        e.preventDefault(); e.stopImmediatePropagation();
+        var fbp = document.getElementById('fbPanel'), fbx = document.getElementById('fbClose'); if (fbp && !fbp.hidden && fbx) fbx.click();
+        open('direct', a);
+      });
+    });
+    window.avedentHelper = {open: open};
+  })();
 
   /* step dots */
   document.querySelectorAll('#dots button').forEach(function(b){
